@@ -1,0 +1,87 @@
+#+TITLE: TIMU-LINE
+#+AUTHOR: Aimé Bertrand
+#+DATE: [2023-07-31 Mon]
+#+LANGUAGE: en
+#+OPTIONS: d:t toc:nil num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://macowners.club/css/gtd.css" />
+#+KEYWORDS: emacs ui modeline mode line
+#+STARTUP: indent showall
+
+
+A custom and simple mode line for Emacs.
+
+* Illustration
+*simple:*
+#+html: <p align="center"><img src="img/timu-line.png" width="100%"/></p>
+
+*Active & inactive window:*
+#+html: <p align="center"><img src="img/timu-line-active-inactive.png" width="100%"/></p>
+
+*Mu4e:*
+#+html: <p align="center"><img src="img/timu-line-mu4e.png" width="100%"/></p>
+
+*Org Capture:*
+#+html: <p align="center"><img src="img/timu-line-org-capture.png" width="100%"/></p>
+
+*Elfeed:*
+#+html: <p align="center"><img src="img/timu-line-elfeed.png" width="100%"/></p>
+
+* Installation
+** Manual installation
+1. Download the [[https://gitlab.com/aimebertrand/timu-line/-/raw/main/timu-line.el?inline=false][=timu-line.el=]] file and add it to your =custom-load-path=.
+2. In your =~/.emacs.d/init.el= or =~/.emacs=:
+
+#+begin_src emacs-lisp
+  (add-hook 'after-init-hook #'timu-line-mode)
+#+end_src
+
+* Features
+The following is displayed in appropriate buffers only:
+
+** Left side
+- Display hint =k= when a kbd macro is running
+- Display buffer/file name
+- Display keybinds for org capture in the capture buffer
+- Display the vc branch
+- Display the python venv
+- Display Mu4e context
+- Display Elfeed search filter
+
+** Right side
+- Display the major mode
+- Display mu4e mail count
+- Display tab number =current:total=
+- Display column number of the point
+
+* Settings
+** faces
+The following faces can be set to ones liking. Either by the theme or with =set-face-attribute=.
+
+- =timu-line-background-active-face=
+- =timu-line-background-inactive-face=
+- =timu-line-active-face=
+- =timu-line-inactive-face=
+- =timu-line-special-face=
+- =timu-line-fancy-face=
+- =timu-line-status-face=
+- =timu-line-modified-face=
+- =timu-line-read-only-face=
+
+** control section display
+You can elect to display some sections or not by using the following variables:
+
+- =timu-line-show-vc-branch=
+- =timu-line-show-python-virtual-env=
+- =timu-line-show-org-capture-hints=
+- =timu-line-show-mu4e-context=
+
+** modes for mu4e context
+=timu-line-mu4e-context-modes= is a custom variable containing a list of major modes in which to display the mu4e context in the mode line.
+
+You can of course change this to your liking.
+
+** modes for mu4e context
+=timu-line-elfeed-modes= controls in which modes the custom elfeed string is displayed.
+
+* License
+MIT License

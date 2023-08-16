@@ -73,6 +73,18 @@ By default set to true."
   :type 'boolean
   :group 'timu-line)
 
+(defcustom timu-line-show-lsp-indicator nil
+  "Control weather to show an lsp indicator in the mode line.
+By default set to nil."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-show-eglot-indicator nil
+  "Control weather to show an eglot indicator in the mode line.
+By default set to nil."
+  :type 'boolean
+  :group 'timu-line)
+
 (defcustom timu-line-show-python-virtual-env t
   "Control weather to show the python Venv in the mode line.
 By default set to true."
@@ -233,6 +245,26 @@ The optional argument BODY is the string/code to propertize."
           (concat "  b:"
                   (substring-no-properties vc-mode
                                            (+ (if (eq backend 'Hg) 2 3) 2))))
+      "")
+    'face face)))
+
+(defun timu-line-lsp-string ()
+  "Return and indicator for lsp mode as a propertized string."
+  (timu-line-face-switcher
+   'timu-line-fancy-face 'timu-line-inactive-face
+   (propertize
+    (if (bound-and-true-p lsp-mode)
+        " l:lsp"
+      "")
+    'face face)))
+
+(defun timu-line-eglot-string ()
+  "Return and indicator for eglot mode as a propertized string."
+  (timu-line-face-switcher
+   'timu-line-fancy-face 'timu-line-inactive-face
+   (propertize
+    (if (bound-and-true-p eglot--managed-mode)
+        " l:eglot"
       "")
     'face face)))
 
@@ -414,6 +446,12 @@ Return a string of `window-width' length containing LEFT, and RIGHT
                           ;; right
                           (format-mode-line
                            (concat
+                            (if timu-line-show-lsp-indicator
+                                (timu-line-lsp-string)
+                              "")
+                            (if timu-line-show-eglot-indicator
+                                (timu-line-eglot-string)
+                              "")
                             (timu-line-get-major-mode)
                             timu-line-spacer-two
                             (timu-line-unread-email-count)

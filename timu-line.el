@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 0.1
+;; Version: 0.3
 ;; Package-Requires: ((emacs "28.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -99,6 +99,12 @@ By default set to true."
 
 (defcustom timu-line-show-mu4e-context t
   "Control weather to show the mu4e context in the mode line.
+By default set to true."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-show-elfeed-counts t
+  "Control weather to show elfeed counts in the mode line.
 By default set to true."
   :type 'boolean
   :group 'timu-line)
@@ -354,10 +360,29 @@ Information:
 (defun timu-line-elfeed-search-filter ()
   "Return the current elfeed search filter as a propertized string."
   (timu-line-face-switcher
-   'timu-line-special-face 'timu-line-inactive-face
+   'timu-line-active-face 'timu-line-inactive-face
    (propertize
     (if (memq major-mode timu-line-elfeed-modes)
         (concat " " elfeed-search-filter)
+      "")
+    'face face)))
+
+(defun timu-line-elfeed-article-counts ()
+  "Return number of articles and feeds as propertized string.
+Example: \"feeds:7 unread:42 total:42\"."
+  (timu-line-face-switcher
+   'timu-line-special-face 'timu-line-inactive-face
+   (propertize
+    (if (memq major-mode '(elfeed-search-mode))
+        (let ((unread
+               (car (split-string (elfeed-search--count-unread) "/")))
+              (total
+               (car (split-string
+                     (cadr (split-string (elfeed-search--count-unread) "/")) ":")))
+              (feeds
+               (cadr (split-string
+                      (cadr (split-string (elfeed-search--count-unread) "/")) ":"))))
+          (concat "  feeds:" feeds " unread:" unread " total:" total))
       "")
     'face face)))
 
@@ -442,6 +467,9 @@ Return a string of `window-width' length containing LEFT, and RIGHT
                                 (timu-line-mu4e-context)
                               "")
                             (timu-line-elfeed-search-filter)
+                            (if timu-line-show-elfeed-counts
+                                (timu-line-elfeed-article-counts)
+                              "")
                             timu-line-spacer-one))
                           ;; right
                           (format-mode-line

@@ -46,6 +46,7 @@ The following is displayed in appropriate buffers only:
 - Display the python venv
 - Display Mu4e context
 - Display Elfeed search filter
+- Display Elfeed article counts
 
 ** Right side
 - Display the major mode
@@ -76,6 +77,7 @@ You can elect to display some sections or not by using the following variables:
 - timu-line-show-python-virtual-env :: default value is =t=
 - timu-line-show-org-capture-hints :: default value is =t=
 - timu-line-show-mu4e-context :: default value is =t=
+- timu-line-show-elfeed-counts :: default value is =t=
 
 ** modes for mu4e context
 =timu-line-mu4e-context-modes= is a custom variable containing a list of major modes in which to display the mu4e context in the mode line.

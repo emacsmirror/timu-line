@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 0.3
+;; Version: 0.4
 ;; Package-Requires: ((emacs "28.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -109,6 +109,12 @@ By default set to true."
   :type 'boolean
   :group 'timu-line)
 
+(defcustom timu-line-show-evil-state nil
+  "Control weather to show the evil state in the mode line.
+By default set to true."
+  :type 'boolean
+  :group 'timu-line)
+
 
 ;;; BUFFER-LOCAL VARIABLES
 (defvar-local timu-line-spacer-one
@@ -206,16 +212,6 @@ The optional argument BODY is the string/code to propertize."
       (format " %s " (buffer-name))))
     'face face)))
 
-(defun timu-line-get-org-capture-hints ()
-  "Return a string with instruction for org capture."
-  (timu-line-face-switcher
-   'timu-line-fancy-face 'timu-line-inactive-face
-   (propertize
-    (if (bound-and-true-p org-capture-mode)
-        "  | Finish: M-s | Refile: M-r | Cancel: M-w | "
-      "")
-    'face face)))
-
 (defun timu-line-get-buffer-name-status ()
   "Return buffer status (ro, rw or modified) and name."
   (with-current-buffer (or (buffer-base-buffer) (current-buffer))
@@ -230,6 +226,30 @@ The optional argument BODY is the string/code to propertize."
         (timu-line-face-switcher
          'timu-line-active-face 'timu-line-inactive-face
          (propertize (timu-line-get-buffer-name) 'face face))))))
+
+(defun timu-line-get-org-capture-hints ()
+  "Return a string with instruction for org capture."
+  (timu-line-face-switcher
+   'timu-line-fancy-face 'timu-line-inactive-face
+   (propertize
+    (if (bound-and-true-p org-capture-mode)
+        "  | Finish: M-s | Refile: M-r | Cancel: M-w | "
+      "")
+    'face face)))
+
+(defun timu-line-get-evil-state ()
+  "Return the evil state as a propertized string."
+  (let ((state "!")) ;; default value
+    (when (bound-and-true-p evil-emacs-state-minor-mode) (setq state " e"))
+    (when (bound-and-true-p evil-insert-state-minor-mode) (setq state " i"))
+    (when (bound-and-true-p evil-motion-state-minor-mode) (setq state " m"))
+    (when (bound-and-true-p evil-normal-state-minor-mode) (setq state " n"))
+    (when (bound-and-true-p evil-operator-state-minor-mode) (setq state " o"))
+    (when (bound-and-true-p evil-replace-state-minor-mode) (setq state " r"))
+    (when (bound-and-true-p evil-visual-state-minor-mode) (setq state " v"))
+    (timu-line-face-switcher
+     'timu-line-special-face 'timu-line-inactive-face
+     (propertize state 'face face))))
 
 (defun timu-line-get-major-mode ()
   "Return current major mode name."
@@ -453,6 +473,9 @@ Return a string of `window-width' length containing LEFT, and RIGHT
                            (concat
                             (timu-line-front-space)
                             (timu-line-kbd-macro-p)
+                            (if timu-line-show-evil-state
+                                (timu-line-get-evil-state)
+                              "")
                             (timu-line-get-buffer-name-status)
                             (if timu-line-show-vc-branch
                                 (timu-line-get-vc-branch)

@@ -242,13 +242,13 @@ The optional argument BODY is the string/code to propertize."
 (defun timu-line-get-evil-state ()
   "Return the evil state as a propertized string."
   (let ((state "!")) ;; default value
-    (when (bound-and-true-p evil-emacs-state-minor-mode) (setq state " e"))
-    (when (bound-and-true-p evil-insert-state-minor-mode) (setq state " i"))
-    (when (bound-and-true-p evil-motion-state-minor-mode) (setq state " m"))
-    (when (bound-and-true-p evil-normal-state-minor-mode) (setq state " n"))
-    (when (bound-and-true-p evil-operator-state-minor-mode) (setq state " o"))
-    (when (bound-and-true-p evil-replace-state-minor-mode) (setq state " r"))
-    (when (bound-and-true-p evil-visual-state-minor-mode) (setq state " v"))
+    (when (evil-emacs-state-p) (setq state " e"))
+    (when (evil-insert-state-p) (setq state " i"))
+    (when (evil-motion-state-p) (setq state " m"))
+    (when (evil-normal-state-p) (setq state " n"))
+    (when (evil-operator-state-p) (setq state " o"))
+    (when (evil-replace-state-p) (setq state " r"))
+    (when (evil-visual-state-p) (setq state " v"))
     (timu-line-face-switcher
      'timu-line-special-face 'timu-line-inactive-face
      (if timu-line-show-evil-state

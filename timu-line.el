@@ -408,9 +408,12 @@ Example: \"feeds:7 unread:42 total:42\"."
 
 (defun timu-line-popper-indicator ()
   "Return the current mu4e context as a propertized string."
+  (customize-set-variable 'popper-mode-line "")
   (timu-line-face-switcher
    'timu-line-status-face 'timu-line-inactive-face
-   (propertize " p" 'face face)))
+   (if (bound-and-true-p popper-popup-status)
+       (propertize " p" 'face face)
+     "")))
 
 (defun timu-line-front-space ()
   "Space to add to the front of the mode line content.
@@ -460,9 +463,6 @@ Return a string of `window-width' length containing LEFT, and RIGHT
   (customize-set-variable 'mode-line-position-column-line-format '(" %c "))
   (customize-set-variable 'mode-line-percent-position nil)
   (customize-set-variable 'evil-mode-line-format nil)
-  (customize-set-variable 'popper-mode-line
-                          '(:eval
-                            (timu-line-popper-indicator)))
   (setq mode-line-format nil)
   (kill-local-variable 'mode-line-format)
   (force-mode-line-update)
@@ -508,6 +508,7 @@ Return a string of `window-width' length containing LEFT, and RIGHT
                             (timu-line-unread-email-count)
                             (timu-line-get-tab-number)
                             (timu-line-get-position)
+                            (timu-line-popper-indicator)
                             (timu-line-end-space))))))))
 
 ;;;###autoload

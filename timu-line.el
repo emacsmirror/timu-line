@@ -232,8 +232,10 @@ The optional argument BODY is the string/code to propertize."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
    (propertize
-    (if (bound-and-true-p org-capture-mode)
-        "  | Finish: M-s | Refile: M-r | Cancel: M-w | "
+    (if timu-line-show-org-capture-hints
+        (if (bound-and-true-p org-capture-mode)
+            "  | Finish: M-s | Refile: M-r | Cancel: M-w | "
+          "")
       "")
     'face face)))
 
@@ -249,7 +251,9 @@ The optional argument BODY is the string/code to propertize."
     (when (bound-and-true-p evil-visual-state-minor-mode) (setq state " v"))
     (timu-line-face-switcher
      'timu-line-special-face 'timu-line-inactive-face
-     (propertize state 'face face))))
+     (if timu-line-show-evil-state
+         (propertize state 'face face)
+       ""))))
 
 (defun timu-line-get-major-mode ()
   "Return current major mode name."
@@ -266,11 +270,13 @@ The optional argument BODY is the string/code to propertize."
   (timu-line-face-switcher
    'timu-line-special-face 'timu-line-inactive-face
    (propertize
-    (if vc-mode
-        (let ((backend (vc-backend buffer-file-name)))
-          (concat "  b:"
-                  (substring-no-properties vc-mode
-                                           (+ (if (eq backend 'Hg) 2 3) 2))))
+    (if timu-line-show-vc-branch
+        (if vc-mode
+            (let ((backend (vc-backend buffer-file-name)))
+              (concat "  b:"
+                      (substring-no-properties vc-mode
+                                               (+ (if (eq backend 'Hg) 2 3) 2))))
+          "")
       "")
     'face face)))
 
@@ -279,8 +285,10 @@ The optional argument BODY is the string/code to propertize."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
    (propertize
-    (if (bound-and-true-p lsp-mode)
-        " l:lsp"
+    (if timu-line-show-lsp-indicator
+        (if (bound-and-true-p lsp-mode)
+            " l:lsp"
+          "")
       "")
     'face face)))
 
@@ -289,8 +297,10 @@ The optional argument BODY is the string/code to propertize."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
    (propertize
-    (if (bound-and-true-p eglot--managed-mode)
-        " l:eglot"
+    (if timu-line-show-eglot-indicator
+        (if (bound-and-true-p eglot--managed-mode)
+            " l:eglot"
+          "")
       "")
     'face face)))
 
@@ -312,11 +322,13 @@ Information:
   (timu-line-face-switcher
    'timu-line-special-face 'timu-line-inactive-face
    (propertize
-    (if (eq major-mode 'python-mode)
-        (let ((venv (if pyvenv-virtual-env-name
-                        (format "  v:%s" pyvenv-virtual-env-name)
-                      "")))
-          venv)
+    (if timu-line-show-python-virtual-env
+        (if (eq major-mode 'python-mode)
+            (let ((venv (if pyvenv-virtual-env-name
+                            (format "  v:%s" pyvenv-virtual-env-name)
+                          "")))
+              venv)
+          "")
       "")
     'face face)))
 
@@ -369,10 +381,12 @@ Information:
   (timu-line-face-switcher
    'timu-line-special-face 'timu-line-inactive-face
    (propertize
-    (if (memq major-mode timu-line-mu4e-context-modes)
-        (if (> (length (timu-line-mu4e-context-string)) 0)
-            (concat " c:" (substring-no-properties
-                           (timu-line-mu4e-context-string) 0 nil))
+    (if timu-line-show-mu4e-context
+        (if (memq major-mode timu-line-mu4e-context-modes)
+            (if (> (length (timu-line-mu4e-context-string)) 0)
+                (concat " c:" (substring-no-properties
+                               (timu-line-mu4e-context-string) 0 nil))
+              "")
           "")
       "")
     'face face)))
@@ -387,22 +401,33 @@ Information:
       "")
     'face face)))
 
-(defun timu-line-elfeed-article-counts ()
-  "Return number of articles and feeds as propertized string.
+(defun timu-line-get-elfeed-article-counts ()
+  "Return number of articles and feeds as string.
 Example: \"feeds:7 unread:42 total:42\"."
+  (if (memq major-mode '(elfeed-search-mode))
+      (let ((unread
+             (car
+              (split-string (elfeed-search--count-unread) "/")))
+            (total
+             (car
+              (split-string
+               (cadr
+                (split-string (elfeed-search--count-unread) "/")) ":")))
+            (feeds
+             (cadr
+              (split-string
+               (cadr
+                (split-string (elfeed-search--count-unread) "/")) ":"))))
+        (concat "  feeds:" feeds " unread:" unread " total:" total))
+    ""))
+
+(defun timu-line-elfeed-article-counts ()
+  "Return number of articles and feeds as propertized string."
   (timu-line-face-switcher
    'timu-line-special-face 'timu-line-inactive-face
    (propertize
-    (if (memq major-mode '(elfeed-search-mode))
-        (let ((unread
-               (car (split-string (elfeed-search--count-unread) "/")))
-              (total
-               (car (split-string
-                     (cadr (split-string (elfeed-search--count-unread) "/")) ":")))
-              (feeds
-               (cadr (split-string
-                      (cadr (split-string (elfeed-search--count-unread) "/")) ":"))))
-          (concat "  feeds:" feeds " unread:" unread " total:" total))
+    (if timu-line-show-elfeed-counts
+        (timu-line-get-elfeed-article-counts)
       "")
     'face face)))
 
@@ -473,36 +498,20 @@ Return a string of `window-width' length containing LEFT, and RIGHT
                            (concat
                             (timu-line-front-space)
                             (timu-line-kbd-macro-p)
-                            (if timu-line-show-evil-state
-                                (timu-line-get-evil-state)
-                              "")
+                            (timu-line-get-evil-state)
                             (timu-line-get-buffer-name-status)
-                            (if timu-line-show-vc-branch
-                                (timu-line-get-vc-branch)
-                              "")
-                            (if timu-line-show-python-virtual-env
-                                (timu-line-get-python-virtual-env)
-                              "")
-                            (if timu-line-show-org-capture-hints
-                                (timu-line-get-org-capture-hints)
-                              "")
-                            (if timu-line-show-mu4e-context
-                                (timu-line-mu4e-context)
-                              "")
+                            (timu-line-get-vc-branch)
+                            (timu-line-get-python-virtual-env)
+                            (timu-line-get-org-capture-hints)
+                            (timu-line-mu4e-context)
                             (timu-line-elfeed-search-filter)
-                            (if timu-line-show-elfeed-counts
-                                (timu-line-elfeed-article-counts)
-                              "")
+                            (timu-line-elfeed-article-counts)
                             timu-line-spacer-one))
                           ;; right
                           (format-mode-line
                            (concat
-                            (if timu-line-show-lsp-indicator
-                                (timu-line-lsp-string)
-                              "")
-                            (if timu-line-show-eglot-indicator
-                                (timu-line-eglot-string)
-                              "")
+                            (timu-line-lsp-string)
+                            (timu-line-eglot-string)
                             (timu-line-get-major-mode)
                             timu-line-spacer-two
                             (timu-line-unread-email-count)

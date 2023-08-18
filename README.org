@@ -55,7 +55,7 @@ The following is displayed in appropriate buffers only:
 - Display tab number =current:total=
 - Display column number of the point
 
-* Settings
+* Options
 ** faces
 The following faces can be set to ones liking. Either by the theme or with =set-face-attribute=.
 

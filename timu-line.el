@@ -118,13 +118,13 @@ By default set to true."
 
 ;;; BUFFER-LOCAL VARIABLES
 (defvar-local timu-line-spacer-one
-  (propertize "  " 'face 'timu-line-active-face 'display `(raise +0.20)))
+    (propertize "  " 'face 'timu-line-active-face 'display `(raise +0.20)))
 
 (defvar-local timu-line-spacer-two
-  (propertize "  " 'face 'timu-line-active-face 'display `(raise -0.20)))
+    (propertize "  " 'face 'timu-line-active-face 'display `(raise -0.20)))
 
 (defvar-local timu-line-spacer-three
-  (propertize "  " 'face 'timu-line-active-face))
+    (propertize "  " 'face 'timu-line-active-face))
 
 (dolist (vars '(timu-line-spacer-one
                 timu-line-spacer-two
@@ -256,9 +256,9 @@ The optional argument BODY is the string/code to propertize."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
    (propertize
-(concat
-"  m:"
-    (substring (symbol-name major-mode) 0 -5))
+    (concat
+     "  m:"
+     (substring (symbol-name major-mode) 0 -5))
     'face face)))
 
 (defun timu-line-get-vc-branch ()
@@ -517,7 +517,6 @@ Return a string of `window-width' length containing LEFT, and RIGHT
   :group 'timu-line
   :global t
   :init-value nil
-
   (if timu-line-mode
       (timu-line-activate-mode-line)
     (timu-line-default-mode-line)))

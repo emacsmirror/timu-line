@@ -110,7 +110,12 @@
   :group 'timu)
 
 
-;;; CUSTOM VARIABLES
+;;; VARIABLES
+(defvar timu-line-selected-window nil
+  "Variable to store the currently selected window.")
+
+
+;;; CUSTOMIZABLE VARIABLE
 (defcustom timu-line-path
   (expand-file-name "libraries/timu-line.el" user-emacs-directory)
   "Variable for the path of the module `timu-line'."
@@ -250,9 +255,6 @@ By default set to true."
   '((t :inherit font-lock-comment-face :weight bold))
   "Face for the buffer name, when the buffer is read only."
   :group 'timu-line)
-
-(defvar timu-line-selected-window nil
-  "Variable to store the currently selected window.")
 
 
 ;;; FUNCTIONS

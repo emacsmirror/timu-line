@@ -512,7 +512,7 @@ Example: \"feeds:7 unread:42 total:42\"."
   "Return the current mu4e context as a propertized string."
   (customize-set-variable 'popper-mode-line "")
   (timu-line-face-switcher
-   'timu-line-status-face 'timu-line-inactive-face
+   'timu-line-fancy-face 'timu-line-inactive-face
    (if (bound-and-true-p popper-popup-status)
        (propertize " p" 'face face)
      "")))

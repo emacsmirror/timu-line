@@ -107,7 +107,7 @@
 ;;; DEFAULTS
 (defgroup timu-line ()
   "Customise group for the `timu-line' Library."
-  :group 'timu)
+  :group 'environment)
 
 
 ;;; VARIABLES

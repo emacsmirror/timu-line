@@ -281,6 +281,8 @@ The optional argument BODY is the string/code to propertize."
                              (f-filename buffer-file-name))))
      ((memq major-mode timu-line-elfeed-modes)
       " *elfeed* ")
+     ((derived-mode-p 'helpful-mode)
+      " *helpful* ")
      (t
       (format " %s " (buffer-name))))
     'face face)))

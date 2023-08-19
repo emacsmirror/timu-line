@@ -289,7 +289,7 @@ The optional argument BODY is the string/code to propertize."
       (format " %s " (buffer-name))))
     'face face)))
 
-(defun timu-line-get-buffer-name-status ()
+(defun timu-line-buffer-name-status ()
   "Return buffer status (ro, rw or modified) and name."
   (with-current-buffer (or (buffer-base-buffer) (current-buffer))
     (if (and buffer-file-name (buffer-modified-p))
@@ -304,7 +304,7 @@ The optional argument BODY is the string/code to propertize."
          'timu-line-active-face 'timu-line-inactive-face
          (propertize (timu-line-get-buffer-name) 'face face))))))
 
-(defun timu-line-get-org-capture-keys ()
+(defun timu-line-org-capture-keys ()
   "Return a string with instruction for org capture."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
@@ -316,7 +316,7 @@ The optional argument BODY is the string/code to propertize."
       "")
     'face face)))
 
-(defun timu-line-get-evil-state ()
+(defun timu-line-evil-state ()
   "Return the evil state as a propertized string."
   (let ((state "!")) ;; default value
     (when (evil-emacs-state-p) (setq state " e"))
@@ -332,7 +332,7 @@ The optional argument BODY is the string/code to propertize."
          (propertize state 'face face)
        ""))))
 
-(defun timu-line-get-major-mode ()
+(defun timu-line-major-mode ()
   "Return current major mode name."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
@@ -342,7 +342,7 @@ The optional argument BODY is the string/code to propertize."
      (substring (symbol-name major-mode) 0 -5))
     'face face)))
 
-(defun timu-line-get-vc-branch ()
+(defun timu-line-vc-branch ()
   "Return current vc branch if in a repo."
   (timu-line-face-switcher
    'timu-line-special-face 'timu-line-inactive-face
@@ -391,7 +391,7 @@ The optional argument BODY is the string/code to propertize."
       "")
     'face face)))
 
-(defun timu-line-get-python-virtual-env ()
+(defun timu-line-python-virtual-env ()
   "Return python virtual env.
 Information:
 - Python Virtual Environment using `pyvenv-virtual-env-name'.
@@ -423,7 +423,7 @@ Information:
        ""))
     'face face)))
 
-(defun timu-line-get-tab-number ()
+(defun timu-line-tab-number ()
   "Return the number of the current tab and the total numbers of tabs."
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
@@ -438,7 +438,7 @@ Information:
                  (length (frame-parameter nil 'tabs))))))
     'face face)))
 
-(defun timu-line-get-position ()
+(defun timu-line-position ()
   "Return column position of the point as a propertized string."
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
@@ -575,11 +575,11 @@ Return a string of `window-width' length containing LEFT, and RIGHT
                            (concat
                             (timu-line-front-space)
                             (timu-line-kbd-macro-p)
-                            (timu-line-get-evil-state)
-                            (timu-line-get-buffer-name-status)
-                            (timu-line-get-vc-branch)
-                            (timu-line-get-python-virtual-env)
-                            (timu-line-get-org-capture-keys)
+                            (timu-line-evil-state)
+                            (timu-line-buffer-name-status)
+                            (timu-line-vc-branch)
+                            (timu-line-python-virtual-env)
+                            (timu-line-org-capture-keys)
                             (timu-line-mu4e-context)
                             (timu-line-elfeed-search-filter)
                             (timu-line-elfeed-article-counts)
@@ -589,11 +589,11 @@ Return a string of `window-width' length containing LEFT, and RIGHT
                            (concat
                             (timu-line-lsp-string)
                             (timu-line-eglot-string)
-                            (timu-line-get-major-mode)
+                            (timu-line-major-mode)
                             timu-line-spacer-two
                             (timu-line-unread-email-count)
-                            (timu-line-get-tab-number)
-                            (timu-line-get-position)
+                            (timu-line-tab-number)
+                            (timu-line-position)
                             (timu-line-popper-indicator)
                             (timu-line-end-space))))))))
 

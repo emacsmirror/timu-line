@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 0.5
+;; Version: 0.6
 ;; Package-Requires: ((emacs "28.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -281,6 +281,9 @@ The optional argument BODY is the string/code to propertize."
      (buffer-file-name
       (format " %s " (f-join (f-filename (f-dirname buffer-file-name))
                              (f-filename buffer-file-name))))
+     ((derived-mode-p 'dired-mode)
+      (format " %s " (f-join (f-filename (f-dirname dired-directory))
+                             (f-filename dired-directory))))
      ((memq major-mode timu-line-elfeed-modes)
       " *elfeed* ")
      ((derived-mode-p 'helpful-mode)

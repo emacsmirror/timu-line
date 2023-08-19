@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 0.4
+;; Version: 0.5
 ;; Package-Requires: ((emacs "28.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -83,18 +83,20 @@
 ;;     - `timu-line-show-lsp-indicator' - default value is nil
 ;;     - `timu-line-show-eglot-indicator' - default value is nil
 ;;     - `timu-line-show-python-virtual-env' - default value is t
-;;     - `timu-line-show-org-capture-hints' - default value is t
+;;     - `timu-line-show-org-capture-keys' - default value is t
 ;;     - `timu-line-show-mu4e-context' - default value is t
 ;;     - `timu-line-show-elfeed-counts' - default value is t
 ;;     - `timu-line-show-evil-state' - default value is nil
 ;;
-;;  C. modes for mu4e context
+;;  C. Org capture hints for keybindings
+;;     The variable `timu-line-org-capture-keys-string' contains the string to
+;;     show in the mode line as keybindings hint in the org capture buffer.
+;;
+;;  D. Modes for mu4e context
 ;;     `timu-line-mu4e-context-modes' is a custom variable containing a list of
 ;;     major modes in which to display the Mu4e context in the mode line.
 ;;
-;;     You can of course change this to your liking.
-;;
-;;  D. modes for mu4e context
+;;  E. Modes for mu4e context
 ;;     `timu-line-elfeed-modes' controls in which modes the custom
 ;;     Elfeed string is displayed.
 
@@ -156,9 +158,15 @@ By default set to true."
   :type 'boolean
   :group 'timu-line)
 
-(defcustom timu-line-show-org-capture-hints t
-  "Control weather to show the org capture hints in the mode line.
+(defcustom timu-line-show-org-capture-keys t
+  "Control weather to show the org capture keybindings in the mode line.
 By default set to true."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-org-capture-keys-string
+  "| Finish: M-s | Refile: M-r | Cancel: M-w |"
+  "The string to show as org capture keybindings."
   :type 'boolean
   :group 'timu-line)
 
@@ -292,14 +300,14 @@ The optional argument BODY is the string/code to propertize."
          'timu-line-active-face 'timu-line-inactive-face
          (propertize (timu-line-get-buffer-name) 'face face))))))
 
-(defun timu-line-get-org-capture-hints ()
+(defun timu-line-get-org-capture-keys ()
   "Return a string with instruction for org capture."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
    (propertize
-    (if timu-line-show-org-capture-hints
+    (if timu-line-show-org-capture-keys
         (if (bound-and-true-p org-capture-mode)
-            "  | Finish: M-s | Refile: M-r | Cancel: M-w | "
+            (concat "  " timu-line-org-capture-keys-string " ")
           "")
       "")
     'face face)))
@@ -567,7 +575,7 @@ Return a string of `window-width' length containing LEFT, and RIGHT
                             (timu-line-get-buffer-name-status)
                             (timu-line-get-vc-branch)
                             (timu-line-get-python-virtual-env)
-                            (timu-line-get-org-capture-hints)
+                            (timu-line-get-org-capture-keys)
                             (timu-line-mu4e-context)
                             (timu-line-elfeed-search-filter)
                             (timu-line-elfeed-article-counts)

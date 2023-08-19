@@ -65,8 +65,8 @@
 ;;     The following faces can be set to ones liking.
 ;;     Either by the theme or with `set-face-attribute'.
 ;;
-;;     - `timu-line-background-active-face'
-;;     - `timu-line-background-inactive-face'
+;;     - `timu-line-bg-active-face'
+;;     - `timu-line-bg-inactive-face'
 ;;     - `timu-line-active-face'
 ;;     - `timu-line-inactive-face'
 ;;     - `timu-line-special-face'
@@ -211,12 +211,12 @@ By default set to true."
 
 
 ;;; FACES
-(defface timu-line-background-active-face
+(defface timu-line-bg-active-face
   '((t nil))
   "Default background face for the active mode line."
   :group 'timu-line)
 
-(defface timu-line-background-inactive-face
+(defface timu-line-bg-inactive-face
   '((t nil))
   "Default background face for the inactive mode line."
   :group 'timu-line)

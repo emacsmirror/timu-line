@@ -28,7 +28,7 @@ A custom and simple mode line for Emacs.
 
 * Installation
 ** Manual installation
-1. Download the [[https://gitlab.com/aimebertrand/timu-line/-/raw/main/timu-line.el?inline=false][=timu-line.el=]] file and add it to your =custom-load-path=.
+1. Download the [[https://gitlab.com/aimebertrand/timu-line/-/raw/main/timu-line.el?inline=false][timu-line.el]] file and add it to your =custom-load-path=.
 2. In your =~/.emacs.d/init.el= or =~/.emacs=:
 
 #+begin_src emacs-lisp

@@ -36,9 +36,9 @@
 
 ;; I. Installation
 ;;  A. Manual installation
-;;     1. Add `timu-line.el' to your `custom-load-path'.
-;;     2. In your `~/.emacs.d/init.el' or `~/.emacs':
-;;       (add-hook 'after-init-hook #'timu-line-mode)
+;;   1. Add `timu-line.el' to your `custom-load-path'.
+;;   2. In your `~/.emacs.d/init.el' or `~/.emacs':
+;;      (add-hook 'after-init-hook #'timu-line-mode)
 ;;
 ;; II. Features
 ;;     The following is displayed in appropriate buffers only:
@@ -116,12 +116,6 @@
 
 
 ;;; CUSTOMIZABLE VARIABLE
-(defcustom timu-line-path
-  (expand-file-name "libraries/timu-line.el" user-emacs-directory)
-  "Variable for the path of the module `timu-line'."
-  :type 'file
-  :group 'timu-line)
-
 (defcustom timu-line-elfeed-modes
   '(elfeed-show-mode
     elfeed-search-mode)
@@ -141,31 +135,31 @@
 
 (defcustom timu-line-show-vc-branch t
   "Control weather to show the vc branch in the mode line.
-By default set to true."
+This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-lsp-indicator nil
   "Control weather to show an lsp indicator in the mode line.
-By default set to nil."
+This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-eglot-indicator nil
   "Control weather to show an eglot indicator in the mode line.
-By default set to nil."
+This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-python-virtual-env t
-  "Control weather to show the python Venv in the mode line.
-By default set to true."
+  "Control weather to show the python venv in the mode line.
+This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-org-capture-keys t
   "Control weather to show the org capture keybindings in the mode line.
-By default set to true."
+This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
@@ -177,19 +171,19 @@ By default set to true."
 
 (defcustom timu-line-show-mu4e-context t
   "Control weather to show the mu4e context in the mode line.
-By default set to true."
+This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-elfeed-counts t
   "Control weather to show elfeed counts in the mode line.
-By default set to true."
+This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-evil-state nil
   "Control weather to show the evil state in the mode line.
-By default set to true."
+This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
@@ -293,7 +287,7 @@ The optional argument BODY is the string/code to propertize."
     'face face)))
 
 (defun timu-line-buffer-name-status ()
-  "Return buffer status (ro, rw or modified) and name."
+  "Return buffer status (ro, rw or modified) and name as a propertized string."
   (with-current-buffer (or (buffer-base-buffer) (current-buffer))
     (if (and buffer-file-name (buffer-modified-p))
         (timu-line-face-switcher
@@ -308,7 +302,7 @@ The optional argument BODY is the string/code to propertize."
          (propertize (timu-line-get-buffer-name) 'face face))))))
 
 (defun timu-line-org-capture-keys ()
-  "Return a string with instruction for org capture."
+  "Return keybindings instruction for org capture as a propertized string."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
    (propertize
@@ -336,7 +330,7 @@ The optional argument BODY is the string/code to propertize."
        ""))))
 
 (defun timu-line-major-mode ()
-  "Return current major mode name."
+  "Return current major mode name as a propertized string."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
    (propertize
@@ -346,7 +340,7 @@ The optional argument BODY is the string/code to propertize."
     'face face)))
 
 (defun timu-line-vc-branch ()
-  "Return current vc branch if in a repo."
+  "Return current vc branch if in a repo as a propertized string."
   (timu-line-face-switcher
    'timu-line-special-face 'timu-line-inactive-face
    (propertize
@@ -386,7 +380,7 @@ The optional argument BODY is the string/code to propertize."
     'face face)))
 
 (defun timu-line-kbd-macro-p ()
-  "String to display in the mode line when a Keyboard Macro is being recorded."
+  "Propertized String to display when a Keyboard Macro is being recorded."
   (timu-line-face-switcher
    'timu-line-status-face 'timu-line-inactive-face
    (propertize
@@ -414,7 +408,7 @@ Information:
     'face face)))
 
 (defun timu-line-unread-email-count ()
-  "Return the count of unread emails and a mail icon."
+  "Return the count of unread emails as a propertized string."
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
    (propertize
@@ -428,7 +422,7 @@ Information:
     'face face)))
 
 (defun timu-line-tab-number ()
-  "Return the number of the current tab and the total numbers of tabs."
+  "Return current tab number and total numbers of tabs as a propertized string."
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
    (propertize
@@ -483,7 +477,7 @@ Information:
     'face face)))
 
 (defun timu-line-get-elfeed-article-counts ()
-  "Return number of articles and feeds as string.
+  "Extract number of articles and feeds.
 Example: \"feeds:7 unread:42 total:42\"."
   (if (memq major-mode '(elfeed-search-mode))
       (let ((unread
@@ -513,7 +507,7 @@ Example: \"feeds:7 unread:42 total:42\"."
     'face face)))
 
 (defun timu-line-popper-indicator ()
-  "Return the current mu4e context as a propertized string."
+  "Return an popper indicator as a propertized string."
   (customize-set-variable 'popper-mode-line "")
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
@@ -559,7 +553,7 @@ This is the same as the default value of the `mode-line-format'."
 (defun timu-line-render (left right)
   "Correct spacing for the mode line.
 Return a string of `window-width' length containing LEFT, and RIGHT
- aligned respectively."
+aligned respectively."
   (let* ((available-width (- (window-width) (length left) 2)))
     (format (format " %%s %%%ds " available-width) left right)))
 

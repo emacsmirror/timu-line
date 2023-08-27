@@ -399,7 +399,7 @@ Information:
    (propertize
     (if timu-line-show-python-virtual-env
         (if (eq major-mode 'python-mode)
-            (let ((venv (if pyvenv-virtual-env-name
+            (let ((venv (if (bound-and-true-p pyvenv-virtual-env-name)
                             (format "  v:%s" pyvenv-virtual-env-name)
                           "")))
               venv)
@@ -412,13 +412,15 @@ Information:
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
    (propertize
-    (if (string-equal mu4e-alert-mode-line "")
-        (format "")
-      (concat
-       " e:"
-       (progn (string-match "[0-9]+" mu4e-alert-mode-line)
-              (match-string 0 mu4e-alert-mode-line))
-       ""))
+    (if (bound-and-true-p mu4e-alert-mode-line)
+        (if (string-equal mu4e-alert-mode-line "")
+            (format "")
+          (concat
+           " e:"
+           (progn (string-match "[0-9]+" mu4e-alert-mode-line)
+                  (match-string 0 mu4e-alert-mode-line))
+           ""))
+      "")
     'face face)))
 
 (defun timu-line-tab-number ()
@@ -446,7 +448,7 @@ Information:
 
 (defun timu-line-mu4e-context-string ()
   "Extract context from `mu4e--search-last-query'."
-  (if mu4e--search-last-query
+  (if (bound-and-true-p mu4e--search-last-query)
       (if (string-match "/\\(.+?\\)/.*" mu4e--search-last-query)
           (match-string 1 mu4e--search-last-query) "")
     ""))
@@ -471,8 +473,10 @@ Information:
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
    (propertize
-    (if (memq major-mode timu-line-elfeed-modes)
-        (concat " " elfeed-search-filter)
+    (if (bound-and-true-p elfeed-search-filter)
+        (if (memq major-mode timu-line-elfeed-modes)
+            (concat " " elfeed-search-filter)
+          "")
       "")
     'face face)))
 

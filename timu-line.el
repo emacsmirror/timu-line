@@ -2,7 +2,7 @@
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
 ;; Version: 0.6
-;; Package-Requires: ((emacs "28.1"))
+;; Package-Requires: ((emacs "28.1") (f "0.20.0"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
 ;; Homepage: https://gitlab.com/aimebertrand/timu-line
@@ -315,19 +315,21 @@ The optional argument BODY is the string/code to propertize."
 
 (defun timu-line-evil-state ()
   "Return the evil state as a propertized string."
-  (let ((state "!")) ;; default value
-    (when (evil-emacs-state-p) (setq state " e"))
-    (when (evil-insert-state-p) (setq state " i"))
-    (when (evil-motion-state-p) (setq state " m"))
-    (when (evil-normal-state-p) (setq state " n"))
-    (when (evil-operator-state-p) (setq state " o"))
-    (when (evil-replace-state-p) (setq state " r"))
-    (when (evil-visual-state-p) (setq state " v"))
-    (timu-line-face-switcher
-     'timu-line-special-face 'timu-line-inactive-face
-     (if timu-line-show-evil-state
-         (propertize state 'face face)
-       ""))))
+  (if (featurep 'evil)
+      (let ((state "!")) ;; default value
+        (when (evil-emacs-state-p) (setq state " e"))
+        (when (evil-insert-state-p) (setq state " i"))
+        (when (evil-motion-state-p) (setq state " m"))
+        (when (evil-normal-state-p) (setq state " n"))
+        (when (evil-operator-state-p) (setq state " o"))
+        (when (evil-replace-state-p) (setq state " r"))
+        (when (evil-visual-state-p) (setq state " v"))
+        (timu-line-face-switcher
+         'timu-line-special-face 'timu-line-inactive-face
+         (if timu-line-show-evil-state
+             (propertize state 'face face)
+           "")))
+    ""))
 
 (defun timu-line-major-mode ()
   "Return current major mode name as a propertized string."
@@ -424,7 +426,7 @@ Information:
     'face face)))
 
 (defun timu-line-tab-number ()
-  "Return current tab number and total numbers of tabs as a propertized string."
+  "Return current tab number & total numbers of tabs as a propertized string."
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
    (propertize
@@ -483,21 +485,23 @@ Information:
 (defun timu-line-get-elfeed-article-counts ()
   "Extract number of articles and feeds.
 Example: \"feeds:7 unread:42 total:42\"."
-  (if (memq major-mode '(elfeed-search-mode))
-      (let ((unread
-             (car
-              (split-string (elfeed-search--count-unread) "/")))
-            (total
-             (car
-              (split-string
-               (cadr
-                (split-string (elfeed-search--count-unread) "/")) ":")))
-            (feeds
-             (cadr
-              (split-string
-               (cadr
-                (split-string (elfeed-search--count-unread) "/")) ":"))))
-        (concat "  feeds:" feeds " unread:" unread " total:" total))
+  (if (featurep 'elfeed)
+      (if (memq major-mode '(elfeed-search-mode))
+          (let ((unread
+                 (car
+                  (split-string (elfeed-search--count-unread) "/")))
+                (total
+                 (car
+                  (split-string
+                   (cadr
+                    (split-string (elfeed-search--count-unread) "/")) ":")))
+                (feeds
+                 (cadr
+                  (split-string
+                   (cadr
+                    (split-string (elfeed-search--count-unread) "/")) ":"))))
+            (concat "  feeds:" feeds " unread:" unread " total:" total))
+        "")
     ""))
 
 (defun timu-line-elfeed-article-counts ()

@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 0.6
+;; Version: 0.7
 ;; Package-Requires: ((emacs "28.1") (f "0.20.0"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -266,6 +266,11 @@ The optional argument BODY is the string/code to propertize."
   "Update selected window into `timu-line-selected-window'."
   (setq timu-line-selected-window (selected-window)))
 
+(defun timu-line-get-tramp-host (tramp-default-directory)
+  "Extract host from TRAMP-DEFAULT-DIRECTORY."
+  (when (string-match "/[^:]+:\\([^:]+\\):" tramp-default-directory)
+    (match-string 1 tramp-default-directory)))
+
 (defun timu-line-get-buffer-name ()
   "Return the buffer name as a string."
   (timu-line-face-switcher
@@ -273,11 +278,19 @@ The optional argument BODY is the string/code to propertize."
    (propertize
     (cond
      (buffer-file-name
-      (format " %s " (f-join (f-filename (f-dirname buffer-file-name))
-                             (f-filename buffer-file-name))))
+      (if (tramp-tramp-file-p default-directory)
+          (concat " tramp:" (timu-line-get-tramp-host default-directory) ":"
+                  (format " %s " (f-join (f-filename (f-dirname buffer-file-name))
+                                         (f-filename buffer-file-name))))
+        (format " %s " (f-join (f-filename (f-dirname buffer-file-name))
+                               (f-filename buffer-file-name)))))
      ((derived-mode-p 'dired-mode)
-      (format " %s " (f-join (f-filename (f-dirname dired-directory))
+      (if (tramp-tramp-file-p default-directory)
+          (concat " tramp:" (timu-line-get-tramp-host default-directory) ":"
+      (format " %s " (f-join (f-filename (f-dirname (file-truename dired-directory)))
                              (f-filename dired-directory))))
+      (format " %s " (f-join (f-filename (f-dirname dired-directory))
+                             (f-filename dired-directory)))))
      ((memq major-mode timu-line-elfeed-modes)
       " *elfeed* ")
      ((derived-mode-p 'helpful-mode)

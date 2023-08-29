@@ -189,18 +189,14 @@ This is set to \"nil\" by default."
 
 
 ;;; BUFFER-LOCAL VARIABLES
-(defvar-local timu-line-spacer-one
+(defvar-local timu-line-spacer-top
     (propertize "  " 'face 'timu-line-active-face 'display `(raise +0.20)))
 
-(defvar-local timu-line-spacer-two
+(defvar-local timu-line-spacer-bottom
     (propertize "  " 'face 'timu-line-active-face 'display `(raise -0.20)))
 
-(defvar-local timu-line-spacer-three
-    (propertize "  " 'face 'timu-line-active-face))
-
-(dolist (vars '(timu-line-spacer-one
-                timu-line-spacer-two
-                timu-line-spacer-three))
+(dolist (vars '(timu-line-spacer-top
+                timu-line-spacer-bottom))
   (put vars 'risky-local-variable t))
 
 
@@ -625,14 +621,14 @@ aligned respectively."
                             (timu-line-mu4e-context)
                             (timu-line-elfeed-search-filter)
                             (timu-line-elfeed-article-counts)
-                            timu-line-spacer-one))
+                            timu-line-spacer-top))
                           ;; right
                           (format-mode-line
                            (concat
                             (timu-line-lsp-string)
                             (timu-line-eglot-string)
                             (timu-line-major-mode)
-                            timu-line-spacer-two
+                            timu-line-spacer-bottom
                             (timu-line-unread-email-count)
                             (timu-line-tab-number)
                             (timu-line-position)

@@ -271,6 +271,33 @@ The optional argument BODY is the string/code to propertize."
   (when (string-match "/[^:]+:\\([^:]+\\):" tramp-default-directory)
     (match-string 1 tramp-default-directory)))
 
+(defun timu-line-tramp-root-directory-p (path)
+  "Check if PATH is at the root of a tramp filesystem."
+  (let ((tramp-patterns '("^/\\([^:]+\\):\\([^@:]+\\):/$"
+                          "^/\\([^:]+\\):\\([^@]+\\)@\\([^:]+\\):/$")))
+    (catch 'found
+      (dolist (pattern tramp-patterns)
+        (when (string-match-p pattern path)
+          (throw 'found t)))
+      nil)))
+
+(defun timu-line-get-short-file-path ()
+  "Return the file's \"parent-directory/filename\" as a string."
+  (f-join (f-filename (f-dirname buffer-file-name))
+          (f-filename buffer-file-name)))
+
+(defun timu-line-get-short-dired-path ()
+  "Return the dired's \"parent-directory/directory-name\" or \"/\" as a string.
+The value is \"/\" when `dired-directory' is at the root of the files system."
+  (cond
+   ((or (equal "/" dired-directory) (equal "/../" dired-directory))
+    "/")
+   ((timu-line-tramp-root-directory-p default-directory)
+    "/")
+   (t
+    (f-join (f-filename (f-dirname (file-truename dired-directory)))
+            (f-filename (file-truename dired-directory))))))
+
 (defun timu-line-get-buffer-name ()
   "Return the buffer name as a string."
   (timu-line-face-switcher
@@ -280,17 +307,13 @@ The optional argument BODY is the string/code to propertize."
      (buffer-file-name
       (if (tramp-tramp-file-p default-directory)
           (concat " tramp:" (timu-line-get-tramp-host default-directory) ":"
-                  (format " %s " (f-join (f-filename (f-dirname buffer-file-name))
-                                         (f-filename buffer-file-name))))
-        (format " %s " (f-join (f-filename (f-dirname buffer-file-name))
-                               (f-filename buffer-file-name)))))
+                  (format " %s " (timu-line-get-short-file-path)))
+        (format " %s " (timu-line-get-short-file-path))))
      ((derived-mode-p 'dired-mode)
       (if (tramp-tramp-file-p default-directory)
           (concat " tramp:" (timu-line-get-tramp-host default-directory) ":"
-      (format " %s " (f-join (f-filename (f-dirname (file-truename dired-directory)))
-                             (f-filename dired-directory))))
-      (format " %s " (f-join (f-filename (f-dirname dired-directory))
-                             (f-filename dired-directory)))))
+      (format " %s " (timu-line-get-short-dired-path)))
+      (format " %s " (timu-line-get-short-dired-path))))
      ((memq major-mode timu-line-elfeed-modes)
       " *elfeed* ")
      ((derived-mode-p 'helpful-mode)

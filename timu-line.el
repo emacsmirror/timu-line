@@ -34,13 +34,13 @@
 ;;; Commentary:
 ;; A custom and simple mode line for Emacs.
 
-;; I. Installation
+;; I.  Installation
 ;;  A. Manual installation
 ;;   1. Add `timu-line.el' to your `custom-load-path'.
 ;;   2. In your `~/.emacs.d/init.el' or `~/.emacs':
 ;;      (add-hook 'after-init-hook #'timu-line-mode)
 ;;
-;; II. Features
+;; II.  Features
 ;;     The following is displayed in appropriate buffers only:
 ;;
 ;;  A. Left side
@@ -60,7 +60,7 @@
 ;;     - Display tab number (current:total)
 ;;     - Display column number of the point
 ;;
-;; III. Options
+;; III.  Options
 ;;  A. Faces
 ;;     The following faces can be set to ones liking.
 ;;     Either by the theme or with `set-face-attribute'.
@@ -287,7 +287,7 @@ The optional argument BODY is the string/code to propertize."
           (f-filename buffer-file-name)))
 
 (defun timu-line-get-short-dired-path ()
-  "Return the dired's \"parent-directory/directory-name\" or \"/\" as a string.
+  "Return the Dired's \"parent-directory/directory-name\" or \"/\" as a string.
 The value is \"/\" when `dired-directory' is at the root of the files system."
   (cond
    ((or (equal "/" dired-directory) (equal "/../" dired-directory))

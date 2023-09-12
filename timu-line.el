@@ -104,6 +104,9 @@
 ;;; Code:
 
 
+(require 'f)
+
+
 ;;; DEFAULTS
 (defgroup timu-line ()
   "Customise group for the `timu-line' Library."

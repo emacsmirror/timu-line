@@ -311,8 +311,8 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
      ((derived-mode-p 'dired-mode)
       (if (tramp-tramp-file-p default-directory)
           (concat " tramp:" (timu-line-get-tramp-host default-directory) ":"
-      (format " %s " (timu-line-get-short-dired-path)))
-      (format " %s " (timu-line-get-short-dired-path))))
+                  (format " %s " (timu-line-get-short-dired-path)))
+        (format " %s " (timu-line-get-short-dired-path))))
      ((memq major-mode timu-line-elfeed-modes)
       " *elfeed* ")
      ((derived-mode-p 'helpful-mode)
@@ -321,20 +321,16 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
       (format " %s " (buffer-name))))
     'face face)))
 
-(defun timu-line-buffer-name-status ()
-  "Return buffer status (ro, rw or modified) and name as a propertized string."
+(defun timu-line-buffer-name ()
+  "Return buffer name as a propertized string."
   (with-current-buffer (or (buffer-base-buffer) (current-buffer))
     (if (and buffer-file-name (buffer-modified-p))
         (timu-line-face-switcher
          'timu-line-modified-face 'timu-line-inactive-face
          (propertize (timu-line-get-buffer-name) 'face face))
-      (if buffer-read-only
-          (timu-line-face-switcher
-           'timu-line-read-only-face 'timu-line-inactive-face
-           (propertize (timu-line-get-buffer-name) 'face face))
-        (timu-line-face-switcher
-         'timu-line-active-face 'timu-line-inactive-face
-         (propertize (timu-line-get-buffer-name) 'face face))))))
+      (timu-line-face-switcher
+       'timu-line-active-face 'timu-line-inactive-face
+       (propertize (timu-line-get-buffer-name) 'face face)))))
 
 (defun timu-line-org-capture-keys ()
   "Return keybindings instruction for org capture as a propertized string."
@@ -391,6 +387,14 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
           "")
       "")
     'face face)))
+
+(defun timu-line-read-only-state ()
+  "Return a string if the buffer is read only."
+  (with-current-buffer (or (buffer-base-buffer) (current-buffer))
+    (if buffer-read-only
+        (timu-line-face-switcher
+         'timu-line-special-face 'timu-line-inactive-face
+         (propertize "ro" 'face face)))))
 
 (defun timu-line-lsp-string ()
   "Return and indicator for lsp mode as a propertized string."
@@ -617,7 +621,8 @@ aligned respectively."
                             (timu-line-front-space)
                             (timu-line-kbd-macro-p)
                             (timu-line-evil-state)
-                            (timu-line-buffer-name-status)
+                            (timu-line-buffer-name)
+                            (timu-line-read-only-state)
                             (timu-line-vc-branch)
                             (timu-line-python-virtual-env)
                             (timu-line-org-capture-keys)

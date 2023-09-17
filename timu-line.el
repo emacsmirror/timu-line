@@ -356,7 +356,7 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
         (when (evil-replace-state-p) (setq state " r"))
         (when (evil-visual-state-p) (setq state " v"))
         (timu-line-face-switcher
-         'timu-line-special-face 'timu-line-inactive-face
+         'timu-line-fancy-face 'timu-line-inactive-face
          (if timu-line-show-evil-state
              (propertize state 'face face)
            "")))

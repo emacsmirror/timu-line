@@ -51,7 +51,7 @@ The following is displayed in appropriate buffers only:
 
 ** Right side
 - Display the major mode
-- Display mu4e mail count
+- Display mu4e mail count (works only with =mu= installed)
 - Display tab number =current:total=
 - Display column number of the point
 

@@ -448,19 +448,16 @@ Information:
       "")
     'face face)))
 
-(defun timu-line-unread-email-count ()
-  "Return the count of unread emails as a propertized string."
+(defun timu-line-unread-mu4e-count ()
+  "Return the count of unread emails as a propertized string.
+This works only with \"mu\" so far."
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
    (propertize
-    (if (bound-and-true-p mu4e-alert-mode-line)
-        (if (string-equal mu4e-alert-mode-line "")
-            (format "")
-          (concat
-           " e:"
-           (progn (string-match "[0-9]+" mu4e-alert-mode-line)
-                  (match-string 0 mu4e-alert-mode-line))
-           ""))
+    (if (executable-find "mu")
+        (concat " e:"
+                (shell-command-to-string
+                 "printf $(mu find flag:unread 2> /dev/null | wc -l)"))
       "")
     'face face)))
 
@@ -637,7 +634,7 @@ aligned respectively."
                             (timu-line-eglot-string)
                             (timu-line-major-mode)
                             timu-line-spacer-bottom
-                            (timu-line-unread-email-count)
+                            (timu-line-unread-mu4e-count)
                             (timu-line-tab-number)
                             (timu-line-position)
                             (timu-line-popper-indicator)

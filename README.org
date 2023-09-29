@@ -27,12 +27,13 @@ A custom and simple mode line for Emacs.
 #+html: <p align="center"><img src="img/timu-line-elfeed.png" width="100%"/></p>
 
 * Installation
-** Manual installation
+** Installation
 1. Download the [[https://gitlab.com/aimebertrand/timu-line/-/raw/main/timu-line.el?inline=false][timu-line.el]] file and add it to your =custom-load-path=.
 2. In your =~/.emacs.d/init.el= or =~/.emacs=:
 
+** Setup
 #+begin_src emacs-lisp
-  (add-hook 'after-init-hook #'timu-line-mode)
+  (timu-line-mode 1)
 #+end_src
 
 * Features

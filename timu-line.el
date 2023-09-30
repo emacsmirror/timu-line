@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 0.7
+;; Version: 0.8
 ;; Package-Requires: ((emacs "28.1") (f "0.20.0"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -190,6 +190,12 @@ This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
+(defcustom timu-line-show-tramp-host nil
+  "Control weather to show the tramp host in the mode line.
+This is set to \"nil\" by default."
+  :type 'boolean
+  :group 'timu-line)
+
 
 ;;; BUFFER-LOCAL VARIABLES
 (defvar-local timu-line-spacer-top
@@ -280,6 +286,18 @@ The optional argument BODY is the string/code to propertize."
           (throw 'found t)))
       nil)))
 
+(defun timu-line-tramp-host-string ()
+  "Return the tramp host as propertized string."
+  (timu-line-face-switcher
+   'timu-line-special-face 'timu-line-inactive-face
+   (propertize
+    (if timu-line-show-tramp-host
+        (if (tramp-tramp-file-p default-directory)
+            (format " t:%s " (timu-line-get-tramp-host default-directory))
+          "")
+      "")
+    'face face)))
+
 (defun timu-line-get-short-file-path ()
   "Return the file's \"parent-directory/filename\" as a string."
   (f-join (f-filename (f-dirname buffer-file-name))
@@ -304,15 +322,9 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
    (propertize
     (cond
      (buffer-file-name
-      (if (tramp-tramp-file-p default-directory)
-          (concat " tramp:" (timu-line-get-tramp-host default-directory) ":"
-                  (format " %s " (timu-line-get-short-file-path)))
-        (format " %s " (timu-line-get-short-file-path))))
+      (format " %s " (timu-line-get-short-file-path)))
      ((derived-mode-p 'dired-mode)
-      (if (tramp-tramp-file-p default-directory)
-          (concat " tramp:" (timu-line-get-tramp-host default-directory) ":"
-                  (format " %s " (timu-line-get-short-dired-path)))
-        (format " %s " (timu-line-get-short-dired-path))))
+      (format " %s " (timu-line-get-short-dired-path)))
      ((memq major-mode timu-line-elfeed-modes)
       " *elfeed* ")
      ((derived-mode-p 'helpful-mode)
@@ -618,6 +630,7 @@ aligned respectively."
                             (timu-line-front-space)
                             (timu-line-kbd-macro-p)
                             (timu-line-evil-state)
+                            (timu-line-tramp-host-string)
                             (timu-line-buffer-name)
                             (timu-line-read-only-state)
                             (timu-line-vc-branch)

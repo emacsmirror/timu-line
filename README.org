@@ -26,6 +26,9 @@ A custom and simple mode line for Emacs.
 *Elfeed:*
 #+html: <p align="center"><img src="img/timu-line-elfeed.png" width="100%"/></p>
 
+*Tramp:*
+#+html: <p align="center"><img src="img/timu-line-tramp.png" width="100%"/></p>
+
 * Installation
 ** Installation
 1. Download the [[https://gitlab.com/aimebertrand/timu-line/-/raw/main/timu-line.el?inline=false][timu-line.el]] file and add it to your =custom-load-path=.
@@ -42,6 +45,7 @@ The following is displayed in appropriate buffers only:
 ** Left side
 - Display hint =k= when a kbd macro is running
 - Display evil state
+- Display Tramp host
 - Display buffer/file name
 - Display keybinds for org capture in the capture buffer
 - Display the vc branch

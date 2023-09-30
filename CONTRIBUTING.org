@@ -23,6 +23,13 @@ This mode line is intended to be simple and should depend as little as possible 
 - =m:org= :: Major Mode is Org Mode
 - =t:1:2= :: Currently on tab number 1 of 2
 
+** Try to use the following syntaxt
+- *example* :: =c:79=
+
+| option              | value               |
+|---------------------+---------------------|
+| c (column position) | 79 (n-th character) |
+
 ** Do describe your changes
 Please write the summary of the PR in plain English. If it’s easier for you, feel free to use French or German instead. The most important thing is to provide a clear explanation.
 

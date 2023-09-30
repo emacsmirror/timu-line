@@ -1,0 +1,31 @@
+#+TITLE: TIMU-LINE - CONTRIBUTING
+#+AUTHOR: Aimé Bertrand
+#+DATE: [2023-09-30 Sat]
+#+LANGUAGE: en
+#+OPTIONS: d:t toc:nil num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://macowners.club/css/gtd.css" />
+#+KEYWORDS: emacs ui modeline mode line
+#+STARTUP: indent showall
+
+* Do you!
+You can copy/fork the code and do whatever you want with it. See the [[https://gitlab.com/aimebertrand/timu-line/-/blob/main/README.org][LICENSE]].
+
+* Contributing here
+Please follow the following rules:
+
+** Give the user options
+There is a baseline for the mode line. Other sections/options have custom variables controlling the display. You can see some of these [[https://gitlab.com/aimebertrand/timu-line/-/blob/main/README.org][here]].
+
+** Do not use fancy characters
+This mode line is intended to be simple and should depend as little as possible on external packages. Hence, it uses simple alphabet & ASCII characters to display information.
+
+*examples:*
+- =m:org= :: Major Mode is Org Mode
+- =t:1:2= :: Currently on tab number 1 of 2
+
+** Do describe your changes
+Please write the summary of the PR in plain English. If it’s easier for you, feel free to use French or German instead. The most important thing is to provide a clear explanation.
+
+* Disclaimer
+- I might be slow with merging requests. I will try my best, though.
+- Please don't be sad/mad if a PR is not accepted. However, see the "Do You!" section.

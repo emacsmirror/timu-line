@@ -257,6 +257,17 @@ This is set to \"nil\" by default."
 
 
 ;;; FUNCTIONS
+;;;; for byte-comp
+(declare-function elfeed-search--count-unread "ext:elfeed-search" t t )
+(declare-function evil-visual-state-p "ext:evil-states" t t)
+(declare-function evil-replace-state-p "ext:evil-states" t t)
+(declare-function evil-operator-state-p "ext:evil-states" t t)
+(declare-function evil-normal-state-p "ext:evil-states" t t)
+(declare-function evil-motion-state-p "ext:evil-states" t t)
+(declare-function evil-insert-state-p "ext:evil-states" t t)
+(declare-function evil-emacs-state-p "ext:evil-states" t t)
+(declare-function tramp-tramp-file-p "tramp" t t)
+
 (defmacro timu-line-face-switcher (active-face inactive-face &rest body)
   "Set face according to the window state.
 ACTIVE-FACE for the active window and INACTIVE-FACE for the inactive window.

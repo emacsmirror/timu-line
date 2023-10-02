@@ -11,7 +11,7 @@
 A custom and simple mode line for Emacs.
 
 * Illustration
-*simple:*
+*Simple:*
 #+html: <p align="center"><img src="img/timu-line.png" width="100%"/></p>
 
 *Active & inactive window:*
@@ -29,6 +29,9 @@ A custom and simple mode line for Emacs.
 *Tramp:*
 #+html: <p align="center"><img src="img/timu-line-tramp.png" width="100%"/></p>
 
+*Evil states:*
+#+html: <p align="center"><img src="img/timu-line-evil-states.png" width="100%"/></p>
+
 * Installation
 ** Installation
 1. Download the [[https://gitlab.com/aimebertrand/timu-line/-/raw/main/timu-line.el?inline=false][timu-line.el]] file and add it to your =custom-load-path=.
@@ -45,7 +48,7 @@ The following is displayed in appropriate buffers only:
 ** Left side
 - Display hint =k= when a kbd macro is running
 - Display evil state
-- Display Tramp host
+- Display Tramp host if applicable
 - Display buffer/file name
 - Display keybinds for org capture in the capture buffer
 - Display the vc branch

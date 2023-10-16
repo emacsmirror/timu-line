@@ -420,7 +420,7 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
     (if buffer-read-only
         (timu-line-face-switcher
          'timu-line-special-face 'timu-line-inactive-face
-         (propertize "ro" 'face face)))))
+         (propertize " ro  " 'face face)))))
 
 (defun timu-line-lsp-string ()
   "Return and indicator for lsp mode as a propertized string."

@@ -1,8 +1,8 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 0.8
-;; Package-Requires: ((emacs "28.1") (f "0.20.0"))
+;; Version: 0.9
+;; Package-Requires: ((emacs "28.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
 ;; Homepage: https://gitlab.com/aimebertrand/timu-line
@@ -105,9 +105,6 @@
 
 
 ;;; Code:
-
-
-(require 'f)
 
 
 ;;; DEFAULTS
@@ -314,8 +311,13 @@ The optional argument BODY is the string/code to propertize."
 
 (defun timu-line-get-short-file-path ()
   "Return the file's \"parent-directory/filename\" as a string."
-  (f-join (f-filename (f-dirname buffer-file-name))
-          (f-filename buffer-file-name)))
+  (concat
+   (file-name-nondirectory
+    (directory-file-name
+     (file-name-parent-directory buffer-file-name)))
+   "/"
+   (file-name-nondirectory
+    (directory-file-name buffer-file-name))))
 
 (defun timu-line-get-short-dired-path ()
   "Return the Dired's \"parent-directory/directory-name\" or \"/\" as a string.
@@ -326,8 +328,13 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
    ((timu-line-tramp-root-directory-p default-directory)
     "/")
    (t
-    (f-join (f-filename (f-dirname (file-truename dired-directory)))
-            (f-filename (file-truename dired-directory))))))
+    (concat
+     (file-name-nondirectory
+      (directory-file-name
+       (file-name-parent-directory dired-directory)))
+     "/"
+     (file-name-nondirectory
+      (directory-file-name dired-directory))))))
 
 (defun timu-line-get-buffer-name ()
   "Return the buffer name as a string."

@@ -342,14 +342,16 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
    'timu-line-special-face 'timu-line-inactive-face
    (propertize
     (cond
-     (buffer-file-name
-      (format " %s " (timu-line-get-short-file-path)))
-     ((derived-mode-p 'dired-mode)
-      (format " %s " (timu-line-get-short-dired-path)))
      ((memq major-mode timu-line-elfeed-modes)
       " *elfeed* ")
      ((derived-mode-p 'helpful-mode)
       " *helpful* ")
+     ((string-prefix-p "*Embark Export:" (buffer-name))
+      (format " %s " (buffer-name)))
+     (buffer-file-name
+      (format " %s " (timu-line-get-short-file-path)))
+     ((derived-mode-p 'dired-mode)
+      (format " %s " (timu-line-get-short-dired-path)))
      (t
       (format " %s " (buffer-name))))
     'face face)))

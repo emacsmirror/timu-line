@@ -333,8 +333,10 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
       (directory-file-name
        (file-name-parent-directory dired-directory)))
      "/"
-     (file-name-nondirectory
-      (directory-file-name dired-directory))))))
+     (if (string-suffix-p "~/" dired-directory)
+         (buffer-name)
+       (file-name-nondirectory
+        (directory-file-name dired-directory)))))))
 
 (defun timu-line-get-buffer-name ()
   "Return the buffer name as a string."

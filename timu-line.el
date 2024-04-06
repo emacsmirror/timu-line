@@ -585,25 +585,23 @@ Example: \"feeds:7 unread:42 total:42\"."
 
 (defun timu-line-popper-indicator ()
   "Return an popper indicator as a propertized string."
-  (customize-set-variable 'popper-mode-line "")
-  (timu-line-face-switcher
-   'timu-line-fancy-face 'timu-line-inactive-face
-   (if (bound-and-true-p popper-popup-status)
-       (propertize " p" 'face face)
-     "")))
+  (let ((popper-mode-line ""))
+    (timu-line-face-switcher
+     'timu-line-fancy-face 'timu-line-inactive-face
+     (if (bound-and-true-p popper-popup-status)
+         (propertize " p" 'face face)
+       ""))))
 
 (defun timu-line-front-space ()
   "Space to add to the front of the mode line content.
 This is the same as the default value of the `mode-line-format'."
-  (if
-      (display-graphic-p)
+  (if (display-graphic-p)
       " " "-"))
 
 (defun timu-line-end-space ()
   "Space to add to the end of the mode line content.
 This is the same as the default value of the `mode-line-format'."
-  (unless
-      (display-graphic-p)
+  (unless (display-graphic-p)
     "-%-"))
 
 (defun timu-line-default-mode-line ()

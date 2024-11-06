@@ -56,6 +56,7 @@ The following is displayed in appropriate buffers only:
 - Display Mu4e context
 - Display Elfeed search filter
 - Display Elfeed article counts
+- Display [[https://github.com/jpablobr/emacs-monkeytype][Monkeytype]] Stats
 
 ** Right side
 - Display the major mode
@@ -87,6 +88,7 @@ You can elect to display some sections or not by using the following variables:
 - timu-line-show-org-capture-keys :: default value is =t=
 - timu-line-show-mu4e-context :: default value is =t=
 - timu-line-show-elfeed-counts :: default value is =t=
+- timu-line-show-monkeytype-stats :: default value is =nil=
 - timu-line-show-evil-state :: default value is =nil=
 - timu-line-show-tramp-host :: default value is =nil=
 

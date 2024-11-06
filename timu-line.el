@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 0.9
+;; Version: 1.0
 ;; Package-Requires: ((emacs "28.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -181,6 +181,12 @@ This is set to \"t\" by default."
 (defcustom timu-line-show-elfeed-counts t
   "Control weather to show elfeed counts in the mode line.
 This is set to \"t\" by default."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-show-monkeytype-stats nil
+  "Control weather to show `monkeytype' stats in the mode line.
+This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
@@ -596,6 +602,19 @@ Example: \"feeds:7 unread:42 total:42\"."
          (propertize " p" 'face face)
        ""))))
 
+(defun timu-line-monkeytype-stats ()
+  "Return `monkeytype' stats as a propertized string."
+  (timu-line-face-switcher
+   'timu-line-special-face 'timu-line-inactive-face
+   (if (member 'monkeytype-mode local-minor-modes)
+       (if timu-line-show-monkeytype-stats
+           (propertize
+            (let ((monkeytype-colored-mode-line nil))
+              (monkeytype--mode-line-text))
+            'face face)
+         "")
+     "")))
+
 (defun timu-line-front-space ()
   "Space to add to the front of the mode line content.
 This is the same as the default value of the `mode-line-format'."
@@ -662,6 +681,7 @@ aligned respectively."
                             (timu-line-mu4e-context)
                             (timu-line-elfeed-search-filter)
                             (timu-line-elfeed-article-counts)
+                            (timu-line-monkeytype-stats)
                             timu-line-spacer-top))
                           ;; right
                           (format-mode-line

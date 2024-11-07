@@ -7,7 +7,7 @@
 #+KEYWORDS: emacs ui modeline mode line
 #+STARTUP: indent showall
 
-#+html: <p align="left"><img src="https://melpa.org/packages/timu-line-badge.svg"/></p>
+[[https://melpa.org/#/timu-line][file:https://melpa.org/packages/timu-line-badge.svg]]
 
 A custom and simple mode line for Emacs.
 

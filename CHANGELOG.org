@@ -1,0 +1,40 @@
+#+TITLE: TIMU-LINE - CHANGELOG
+#+AUTHOR: Aimé Bertrand
+#+DATE: [2024-11-07 Thu]
+#+LANGUAGE: en
+#+OPTIONS: d:t toc:nil num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://macowners.club/css/gtd.css" />
+#+KEYWORDS: emacs ui modeline mode line
+#+STARTUP: indent showall
+
+All notable changes to the "timu-line" package will be documented in this file.
+
+* 2024-11-06 - [version 1.0]
+- Add emacs-monkeytype support
+
+* 2024-04-05 - [version 0.9]
+- Get rid of the requirement for the f library
+
+* 2023-09-30 - [version 0.8]
+- Indipendent display of tramp host
+
+* 2023-08-29 - [version 0.7]
+- Add tramp support
+
+* 2023-08-19 - [version 0.6]
+- Show dirname in dired mode a well
+
+* 2023-08-19 - [version 0.5]
+- Options for org capture keybindings hint string
+
+* 2023-08-17 - [version 0.4]
+- Add evil state display
+
+* 2023-08-16 - [version 0.3]
+- Add display of number of articles and feeds in elfeed
+
+* 2023-08-16 - [version 0.2]
+- Add lsp and eglot indicators sections
+
+* 2023-08-13 - [version 0.1]
+- Initial commit

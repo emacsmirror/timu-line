@@ -34,13 +34,28 @@ A custom and simple mode line for Emacs.
 #+html: <p align="center"><img src="img/timu-line-evil-states.png" width="100%"/></p>
 
 * Installation
-** Installation
+** Manual installation
 1. Download the [[https://gitlab.com/aimebertrand/timu-line/-/raw/main/timu-line.el?inline=false][timu-line.el]] file and add it to your =custom-load-path=.
 2. In your =~/.emacs.d/init.el= or =~/.emacs=:
 
-** Setup
 #+begin_src emacs-lisp
   (timu-line-mode 1)
+#+end_src
+
+** From [[https://melpa.org/#/timu-line][Melpa]]
+1. =M-x package-install RET timu-line RET=.
+2. In your =~/.emacs.d/init.el= or =~/.emacs=:
+
+#+begin_src emacs-lisp
+  (timu-line-mode 1)
+#+end_src
+
+** With [[https://github.com/jwiegley/use-package][use-package]]
+#+begin_src emacs-lisp
+  (use-package timu-line
+    :ensure t
+    :config
+    (timu-line-mode 1))
 #+end_src
 
 * Features

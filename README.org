@@ -27,6 +27,9 @@ A custom and simple mode line for Emacs.
 *Elfeed:*
 #+html: <p align="center"><img src="img/timu-line-elfeed.png" width="100%"/></p>
 
+*Monkeytype:*
+#+html: <p align="center"><img src="img/timu-line-monkeytype-light.png" width="100%"/></p>
+
 *Tramp:*
 #+html: <p align="center"><img src="img/timu-line-tramp.png" width="100%"/></p>
 

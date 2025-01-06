@@ -609,12 +609,12 @@ Example: \"feeds:7 unread:42 total:42\"."
 
 (defun timu-line-popper-indicator ()
   "Return an popper indicator as a propertized string."
-  (let ((popper-mode-line ""))
-    (timu-line-face-switcher
-     'timu-line-fancy-face 'timu-line-inactive-face
-     (if (bound-and-true-p popper-popup-status)
-         (propertize " p" 'face face)
-       ""))))
+  (setq popper-mode-line "")
+  (timu-line-face-switcher
+   'timu-line-fancy-face 'timu-line-inactive-face
+   (if (bound-and-true-p popper-popup-status)
+       (propertize " p" 'face face)
+     "")))
 
 (defun timu-line-monkeytype-stats ()
   "Return `monkeytype' stats as a propertized string."

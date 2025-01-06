@@ -151,31 +151,31 @@
   :group 'timu-line)
 
 (defcustom timu-line-show-vc-branch t
-  "Control weather to show the vc branch in the mode line.
+  "Control whether to show the vc branch in the mode line.
 This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-lsp-indicator nil
-  "Control weather to show an lsp indicator in the mode line.
+  "Control whether to show an lsp indicator in the mode line.
 This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-eglot-indicator nil
-  "Control weather to show an eglot indicator in the mode line.
+  "Control whether to show an eglot indicator in the mode line.
 This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-python-virtual-env t
-  "Control weather to show the python venv in the mode line.
+  "Control whether to show the python venv in the mode line.
 This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-org-capture-keys t
-  "Control weather to show the org capture keybindings in the mode line.
+  "Control whether to show the org capture keybindings in the mode line.
 This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
@@ -187,31 +187,31 @@ This is set to \"t\" by default."
   :group 'timu-line)
 
 (defcustom timu-line-show-mu4e-context t
-  "Control weather to show the mu4e context in the mode line.
+  "Control whether to show the mu4e context in the mode line.
 This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-elfeed-counts t
-  "Control weather to show elfeed counts in the mode line.
+  "Control whether to show elfeed counts in the mode line.
 This is set to \"t\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-monkeytype-stats nil
-  "Control weather to show `monkeytype' stats in the mode line.
+  "Control whether to show `monkeytype' stats in the mode line.
 This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-evil-state nil
-  "Control weather to show the evil state in the mode line.
+  "Control whether to show the evil state in the mode line.
 This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
 (defcustom timu-line-show-tramp-host nil
-  "Control weather to show the tramp host in the mode line.
+  "Control whether to show the tramp host in the mode line.
 This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)

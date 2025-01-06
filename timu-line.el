@@ -1,8 +1,8 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 1.0
-;; Package-Requires: ((emacs "28.1"))
+;; Version: 1.1
+;; Package-Requires: ((emacs "29.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
 ;; Homepage: https://gitlab.com/aimebertrand/timu-line
@@ -100,6 +100,7 @@
 ;;      - `timu-line-show-python-virtual-env' - default value is t
 ;;      - `timu-line-show-org-capture-keys' - default value is t
 ;;      - `timu-line-show-mu4e-context' - default value is t
+;;      - `timu-line-show-mu4e-index-update-indicator' - default value is nil
 ;;      - `timu-line-show-elfeed-counts' - default value is t
 ;;      - `timu-line-show-monkeytype-stats' - default value is nil
 ;;      - `timu-line-show-evil-state' - default value is nil
@@ -130,6 +131,13 @@
 ;;; VARIABLES
 (defvar timu-line-selected-window nil
   "Variable to store the currently selected window.")
+
+(defvar timu-line-mu4e-is-updating nil
+  "Indicates whether mu4e is currently updating the index.
+This variable is not meant to be changed manually by the user.
+It is controlled by:
+- `timu-line-mu4e-update-start'
+- `timu-line-mu4e-update-end'")
 
 
 ;;; CUSTOMIZABLE VARIABLE
@@ -189,6 +197,12 @@ This is set to \"t\" by default."
 (defcustom timu-line-show-mu4e-context t
   "Control whether to show the mu4e context in the mode line.
 This is set to \"t\" by default."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-show-mu4e-index-update-indicator nil
+  "Control whether to show the mu4e index update indicator in the mode line.
+This is set to \"nil\" by default."
   :type 'boolean
   :group 'timu-line)
 
@@ -505,16 +519,37 @@ Information:
       "")
     'face face)))
 
+(defun timu-line-mu4e-update-start ()
+  "Set `timu-line-mu4e-is-updating' to \"t\" at mu4e index update start."
+  (setq timu-line-mu4e-is-updating t))
+
+(defun timu-line-mu4e-update-end ()
+  "Set `timu-line-mu4e-is-updating' to \"nil\" at mu4e index update end."
+  (setq timu-line-mu4e-is-updating nil))
+
+(add-hook 'mu4e-update-pre-hook #'timu-line-mu4e-update-start)
+(add-hook 'mu4e-index-updated-hook #'timu-line-mu4e-update-end)
+
 (defun timu-line-unread-mu4e-count ()
-  "Return the count of unread emails as a propertized string.
-This works only with \"mu\" so far."
+  "Return the count (e.g. \"e:42\") of unread emails as a propertized string.
+This works only with \"mu\" so far.
+
+Also show an indicator (\":u\") when mail index is being updated.
+The display it controlled by `timu-line-show-mu4e-index-update-indicator'."
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
    (propertize
     (if (executable-find "mu")
-        (concat " e:"
-                (shell-command-to-string
-                 "printf $(mu find flag:unread 2> /dev/null | wc -l)"))
+        (let ((mu4e-index-update-indicator
+               (if timu-line-show-mu4e-index-update-indicator
+                   (if timu-line-mu4e-is-updating
+                       ":u"
+                     "")
+                 "")))
+          (concat " e:"
+                  (shell-command-to-string
+                   "printf $(mu find flag:unread 2> /dev/null | wc -l)")
+                  (format "%s" mu4e-index-update-indicator)))
       "")
     'face face)))
 

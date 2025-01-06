@@ -12,29 +12,50 @@
 A custom and simple mode line for Emacs.
 
 * Illustration
-*Simple:*
-#+html: <p align="center"><img src="img/timu-line.png" width="100%"/></p>
+*Simple/Default:*
+#+html: <p align="center"><img src="img/timu-line-default-dark.png" width="100%"/></p>
+
+#+html: <p align="center"><img src="img/timu-line-default-light.png" width="100%"/></p>
 
 *Active & inactive window:*
-#+html: <p align="center"><img src="img/timu-line-active-inactive.png" width="100%"/></p>
+#+html: <p align="center"><img src="img/timu-line-active-inactive-dark.png" width="100%"/></p>
+
+#+html: <p align="center"><img src="img/timu-line-active-inactive-light.png" width="100%"/></p>
 
 *Mu4e:*
-#+html: <p align="center"><img src="img/timu-line-mu4e.png" width="100%"/></p>
+#+html: <p align="center"><img src="img/timu-line-mu4e-dark.png" width="100%"/></p>
+
+#+html: <p align="center"><img src="img/timu-line-mu4e-light.png" width="100%"/></p>
+
+*Mu4e index update:*
+#+html: <p align="center"><img src="img/timu-line-mu4e-update-dark.png" width="100%"/></p>
+
+#+html: <p align="center"><img src="img/timu-line-mu4e-update-light.png" width="100%"/></p>
 
 *Org Capture:*
-#+html: <p align="center"><img src="img/timu-line-org-capture.png" width="100%"/></p>
+#+html: <p align="center"><img src="img/timu-line-org-capture-dark.png" width="100%"/></p>
+
+#+html: <p align="center"><img src="img/timu-line-org-capture-light.png" width="100%"/></p>
 
 *Elfeed:*
-#+html: <p align="center"><img src="img/timu-line-elfeed.png" width="100%"/></p>
+#+html: <p align="center"><img src="img/timu-line-elfeed-dark.png" width="100%"/></p>
+
+#+html: <p align="center"><img src="img/timu-line-elfeed-light.png" width="100%"/></p>
 
 *Monkeytype:*
+#+html: <p align="center"><img src="img/timu-line-monkeytype-dark.png" width="100%"/></p>
+
 #+html: <p align="center"><img src="img/timu-line-monkeytype-light.png" width="100%"/></p>
 
 *Tramp:*
-#+html: <p align="center"><img src="img/timu-line-tramp.png" width="100%"/></p>
+#+html: <p align="center"><img src="img/timu-line-tramp-dark.png" width="100%"/></p>
+
+#+html: <p align="center"><img src="img/timu-line-tramp-light.png" width="100%"/></p>
 
 *Evil states:*
-#+html: <p align="center"><img src="img/timu-line-evil-states.png" width="100%"/></p>
+#+html: <p align="center"><img src="img/timu-line-evil-dark.png" width="100%"/></p>
+
+#+html: <p align="center"><img src="img/timu-line-evil-light.png" width="100%"/></p>
 
 * Installation
 ** Manual installation

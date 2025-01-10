@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 1.2
+;; Version: 1.3
 ;; Package-Requires: ((emacs "29.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -61,8 +61,9 @@
 ;;      - Display evil state
 ;;      - Display Tramp host if applicable
 ;;      - Display buffer/file name
-;;      - Display keybindings hint for org capture in the capture buffer
-;;      - Display keybindings hint for git commit message in the message buffer
+;;      - Display keybindings hint for the org capture buffer
+;;      - Display keybindings hint for the git commit message buffer
+;;      - Display keybindings hint for the forge post buffer
 ;;      - Display the vc branch
 ;;      - Display the python venv
 ;;      - Display Mu4e context
@@ -101,6 +102,7 @@
 ;;      - `timu-line-show-python-virtual-env' - default value is t
 ;;      - `timu-line-show-org-capture-keys' - default value is t
 ;;      - `timu-line-show-git-commit-keys' - default value is t
+;;      - `timu-line-show-forge-post-keys' - default value is t
 ;;      - `timu-line-show-mu4e-context' - default value is t
 ;;      - `timu-line-show-mu4e-index-update-indicator' - default value is nil
 ;;      - `timu-line-show-elfeed-counts' - default value is t
@@ -205,6 +207,18 @@ This is set to \"t\" by default."
 (defcustom timu-line-git-commit-keys-string
   "| Finish: M-s | Cancel: M-w |"
   "The string to show as git commit message keybindings."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-show-forge-post-keys t
+  "Control whether to show the forge post keybindings in the mode line.
+This is set to \"t\" by default."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-forge-post-keys-string
+  "| Finish: M-s | Cancel: M-w |"
+  "The string to show as forge post keybindings."
   :type 'boolean
   :group 'timu-line)
 
@@ -437,6 +451,18 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
     (if timu-line-show-git-commit-keys
         (if (bound-and-true-p git-commit-mode)
             (concat "  " timu-line-git-commit-keys-string " ")
+          "")
+      "")
+    'face face)))
+
+(defun timu-line-forge-post-keys ()
+  "Return keybindings hint for forge post as a propertized string."
+  (timu-line-face-switcher
+   'timu-line-fancy-face 'timu-line-inactive-face
+   (propertize
+    (if timu-line-show-git-commit-keys
+        (if (eq major-mode 'forge-post-mode)
+            (concat "  " timu-line-forge-post-keys-string " ")
           "")
       "")
     'face face)))
@@ -754,6 +780,7 @@ aligned respectively."
                             (timu-line-python-virtual-env)
                             (timu-line-org-capture-keys)
                             (timu-line-git-commit-keys)
+                            (timu-line-forge-post-keys)
                             (timu-line-mu4e-context)
                             (timu-line-elfeed-search-filter)
                             (timu-line-elfeed-article-counts)

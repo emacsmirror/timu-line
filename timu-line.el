@@ -460,7 +460,7 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
   (timu-line-face-switcher
    'timu-line-fancy-face 'timu-line-inactive-face
    (propertize
-    (if timu-line-show-git-commit-keys
+    (if timu-line-show-forge-post-keys
         (if (eq major-mode 'forge-post-mode)
             (concat "  " timu-line-forge-post-keys-string " ")
           "")

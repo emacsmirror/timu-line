@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 1.3
+;; Version: 1.4
 ;; Package-Requires: ((emacs "29.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -110,15 +110,23 @@
 ;;      - `timu-line-show-evil-state' - default value is nil
 ;;      - `timu-line-show-tramp-host' - default value is nil
 ;;
-;;   C. Org capture hints for keybindings
+;;   C. Delay time for forcing the mode-line update
+;;      Some commands to not trigger a mode-line update.
+;;      The `post-command-hook' `timu-line-delayed-force-update' tries to mitigate that.
+;;      It forces the update of the mode-line with a delay for performance reasons.
+;;      This variable controls the delay:
+;;
+;;      - `timu-line-update-timer-time' - default value is 0.5
+;;
+;;   D. Org capture hints for keybindings
 ;;      The variable `timu-line-org-capture-keys-string' contains the string to
 ;;      show in the mode line as keybindings hint in the org capture buffer.
 ;;
-;;   D. Modes for mu4e context
+;;   E. Modes for mu4e context
 ;;      `timu-line-mu4e-context-modes' is a custom variable containing a list of
 ;;      major modes in which to display the Mu4e context in the mode line.
 ;;
-;;   E. Modes for mu4e context
+;;   F. Modes for mu4e context
 ;;      `timu-line-elfeed-modes' controls in which modes the custom
 ;;      Elfeed string is displayed.
 
@@ -133,6 +141,9 @@
 
 
 ;;; VARIABLES
+(defvar timu-line-update-timer nil
+  "Timer for delaying ad forced mode-line update.")
+
 (defvar timu-line-selected-window nil
   "Variable to store the currently selected window.")
 
@@ -145,6 +156,11 @@ It is controlled by:
 
 
 ;;; CUSTOMIZABLE VARIABLE
+(defcustom timu-line-update-timer-time 0.5
+  "The time amount to use with `timu-line-update-timer'."
+  :type 'float
+  :group 'timu-line)
+
 (defcustom timu-line-elfeed-modes
   '(elfeed-show-mode
     elfeed-search-mode)
@@ -339,6 +355,21 @@ The optional argument BODY is the string/code to propertize."
                    ,active-face
                  ,inactive-face)))
      ,@body))
+
+(defun timu-line-delayed-force-update ()
+  "Force mode-line update to with a delay to improve performance.
+This is a function to add as a `post-commans-hook'.
+E.g.:
+- `right-char'
+- `left-char'
+- `next-line'
+- `previous-line'
+This is however usefull for some section like the column number."
+  (when timu-line-update-timer
+    (cancel-timer timu-line-update-timer))
+  (setq timu-line-update-timer
+        (run-with-idle-timer
+         timu-line-update-timer-time nil #'force-mode-line-update)))
 
 (defun timu-line-update-selected-window ()
   "Update selected window into `timu-line-selected-window'."
@@ -759,6 +790,7 @@ aligned respectively."
 (defun timu-line-activate-mode-line ()
   "Set the `mode-line-format' to the custom value of the `timu-line-mode'."
   (add-hook 'post-command-hook #'timu-line-update-selected-window)
+  (add-hook 'post-command-hook #'timu-line-delayed-force-update)
   (customize-set-variable 'mode-line-position-column-line-format '(" %c "))
   (customize-set-variable 'mode-line-percent-position nil)
   (customize-set-variable 'evil-mode-line-format nil)

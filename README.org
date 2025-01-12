@@ -137,6 +137,14 @@ You can elect to display some sections or not by using the following variables:
 - timu-line-show-evil-state :: default value is =nil=
 - timu-line-show-tramp-host :: default value is =nil=
 
+** Delay time for forcing the mode-line update
+Some commands to not trigger a mode-line update.
+The =post-command-hook= =timu-line-delayed-force-update= tries to mitigate that.
+It forces the update of the mode-line with a delay for performance reasons.
+This variable controls the delay:
+
+- timu-line-update-timer-time :: default value is =0.5=
+
 ** Org capture hint for keybindings
 The variable =timu-line-org-capture-keys-string= contains the string to show in the mode line as keybindings hint in the org capture buffer.
 

@@ -765,20 +765,7 @@ This is the same as the default value of the `mode-line-format'."
   (kill-local-variable 'mode-line-format)
   (force-mode-line-update)
   (setq-default mode-line-format
-                '("%e" mode-line-front-space
-                  mode-line-mule-info
-                  mode-line-client
-                  mode-line-modified
-                  mode-line-remote
-                  mode-line-frame-identification
-                  mode-line-buffer-identification
-                  "   "
-                  mode-line-position
-                  (vc-mode vc-mode)
-                  "  "
-                  mode-line-modes
-                  mode-line-misc-info
-                  mode-line-end-spaces)))
+                (eval (car (get 'mode-line-format 'standard-value)))))
 
 (defun timu-line-render (left right)
   "Correct spacing for the mode line.

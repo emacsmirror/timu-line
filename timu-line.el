@@ -778,9 +778,6 @@ aligned respectively."
   "Set the `mode-line-format' to the custom value of the `timu-line-mode'."
   (add-hook 'post-command-hook #'timu-line-update-selected-window)
   (add-hook 'post-command-hook #'timu-line-delayed-force-update)
-  (customize-set-variable 'mode-line-position-column-line-format '(" %c "))
-  (customize-set-variable 'mode-line-percent-position nil)
-  (customize-set-variable 'evil-mode-line-format nil)
   (setq-default mode-line-format nil)
   (kill-local-variable 'mode-line-format)
   (force-mode-line-update)
@@ -825,8 +822,12 @@ aligned respectively."
   :global t
   :init-value nil
   (if timu-line-mode
-      (timu-line-activate-mode-line)
-    (timu-line-default-mode-line)))
+      (dolist (buf (buffer-list))
+        (with-current-buffer buf
+          (timu-line-activate-mode-line)))
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (timu-line-default-mode-line)))))
 
 
 (provide 'timu-line)

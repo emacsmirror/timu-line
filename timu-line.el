@@ -212,7 +212,7 @@ This is set to \"t\" by default."
 (defcustom timu-line-org-capture-keys-string
   "| Finish: M-s | Refile: M-r | Cancel: M-w |"
   "The string to show as org capture keybindings."
-  :type 'boolean
+  :type 'string
   :group 'timu-line)
 
 (defcustom timu-line-show-git-commit-keys t
@@ -224,7 +224,7 @@ This is set to \"t\" by default."
 (defcustom timu-line-git-commit-keys-string
   "| Finish: M-s | Cancel: M-w |"
   "The string to show as git commit message keybindings."
-  :type 'boolean
+  :type 'string
   :group 'timu-line)
 
 (defcustom timu-line-show-forge-post-keys t
@@ -236,7 +236,7 @@ This is set to \"t\" by default."
 (defcustom timu-line-forge-post-keys-string
   "| Finish: M-s | Cancel: M-w |"
   "The string to show as forge post keybindings."
-  :type 'boolean
+  :type 'string
   :group 'timu-line)
 
 (defcustom timu-line-show-mu4e-context t

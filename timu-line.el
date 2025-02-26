@@ -405,13 +405,15 @@ This is however usefull for some section like the column number."
 
 (defun timu-line-get-short-file-path ()
   "Return the file's \"parent-directory/filename\" as a string."
-  (concat
-   (file-name-nondirectory
-    (directory-file-name
-     (file-name-parent-directory buffer-file-name)))
-   "/"
-   (file-name-nondirectory
-    (directory-file-name buffer-file-name))))
+  (if (file-exists-p buffer-file-name)
+      (concat
+       (file-name-nondirectory
+        (directory-file-name
+         (file-name-parent-directory buffer-file-name)))
+       "/"
+       (file-name-nondirectory
+        (directory-file-name buffer-file-name)))
+    (buffer-name)))
 
 (defun timu-line-get-short-dired-path ()
   "Return the Dired's \"parent-directory/directory-name\" or \"/\" as a string.

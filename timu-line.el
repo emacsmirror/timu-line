@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 1.4
+;; Version: 1.5
 ;; Package-Requires: ((emacs "29.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -101,6 +101,7 @@
 ;;      - `timu-line-show-lsp-indicator' - default value is nil
 ;;      - `timu-line-show-eglot-indicator' - default value is nil
 ;;      - `timu-line-show-python-virtual-env' - default value is t
+;;      - `timu-line-show-wdired-keys' - default value is nil
 ;;      - `timu-line-show-org-capture-keys' - default value is t
 ;;      - `timu-line-show-git-commit-keys' - default value is t
 ;;      - `timu-line-show-forge-post-keys' - default value is t
@@ -160,6 +161,18 @@ It is controlled by:
 (defcustom timu-line-update-timer-time 0.5
   "The time amount to use with `timu-line-update-timer'."
   :type 'float
+  :group 'timu-line)
+
+(defcustom timu-line-show-wdired-keys nil
+  "Control whether to show (custom) `wdired' keybindings in the mode line.
+This is set to \"t\" by default."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-wdired-keys-string
+  "| Finish: M-s | Abort: M-w |"
+  "The string to show as `wdired' keybindings."
+  :type 'string
   :group 'timu-line)
 
 (defcustom timu-line-elfeed-modes
@@ -489,6 +502,18 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
       "")
     'face face)))
 
+(defun timu-line-wdired-keys ()
+  "Return keybindings hint for `wdired' as a propertized string."
+  (timu-line-face-switcher
+   'timu-line-fancy-face 'timu-line-inactive-face
+   (propertize
+    (if timu-line-show-wdired-keys
+        (if (eq major-mode 'wdired-mode)
+            (concat "  " timu-line-wdired-keys-string " ")
+          "")
+      "")
+    'face face)))
+
 (defun timu-line-forge-post-keys ()
   "Return keybindings hint for forge post as a propertized string."
   (timu-line-face-switcher
@@ -799,6 +824,7 @@ aligned respectively."
                             (timu-line-python-virtual-env)
                             (timu-line-org-capture-keys)
                             (timu-line-git-commit-keys)
+                            (timu-line-wdired-keys)
                             (timu-line-forge-post-keys)
                             (timu-line-mu4e-context)
                             (timu-line-elfeed-search-filter)

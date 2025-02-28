@@ -658,8 +658,11 @@ The display it controlled by `timu-line-show-mu4e-index-update-indicator'."
                      "")
                  "")))
           (concat " e:"
-                  (shell-command-to-string
-                   "printf $(mu find flag:unread 2> /dev/null | wc -l)")
+                  (condition-case nil
+                      ;; TODO - for now catch error when visiting orphaned files
+                      (shell-command-to-string
+                       "printf $(mu find flag:unread 2> /dev/null | wc -l)")
+                    (error "err"))
                   (format "%s" mu4e-index-update-indicator)))
       "")
     'face face)))

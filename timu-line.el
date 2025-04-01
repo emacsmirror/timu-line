@@ -560,12 +560,11 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
    'timu-line-special-face 'timu-line-inactive-face
    (propertize
     (if timu-line-show-vc-branch
-        (if vc-mode
+        (if (and (vc-root-dir)
+                 (or vc-mode (derived-mode-p 'dired-mode)))
             (let ((backend (vc-backend buffer-file-name)))
               (concat "  b:"
-                      (substring-no-properties
-                       vc-mode
-                       (+ (if (eq backend 'Hg) 2 3) 2))))
+                      (car (vc-git-branches))))
           "")
       "")
     'face face)))

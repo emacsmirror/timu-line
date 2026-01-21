@@ -61,6 +61,7 @@
 ;;      - Display evil state
 ;;      - Display Tramp host if applicable
 ;;      - Display buffer/file name
+;;      - Display keybindings hint for the wdired buffer
 ;;      - Display keybindings hint for the org capture buffer
 ;;      - Display keybindings hint for the git commit message buffer
 ;;      - Display keybindings hint for the forge post buffer

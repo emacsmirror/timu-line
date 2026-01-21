@@ -9,6 +9,9 @@
 
 All notable changes to the "timu-line" package will be documented in this file.
 
+* 2025-02-27 - [version 1.5]
+- Add Keybinding hint for the wdired buffer
+
 * 2025-01-12 - [version 1.4]
 - Try to gracefully force update the mode-line
 

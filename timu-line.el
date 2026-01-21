@@ -424,14 +424,15 @@ This is however usefull for some section like the column number."
         (directory-file-name
          (file-name-parent-directory buffer-file-name)))
        "/"
-       (file-name-nondirectory
-        (directory-file-name buffer-file-name)))
+       (buffer-name))
     (buffer-name)))
 
 (defun timu-line-get-short-dired-path ()
   "Return the Dired's \"parent-directory/directory-name\" or \"/\" as a string.
 The value is \"/\" when `dired-directory' is at the root of the files system."
   (cond
+   ((listp dired-directory)
+    (buffer-name)) ;; FIXME Workaround for denote
    ((or (equal "/" dired-directory) (equal "/../" dired-directory))
     "/")
    ((timu-line-tramp-root-directory-p default-directory)

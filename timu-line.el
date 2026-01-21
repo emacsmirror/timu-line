@@ -1,7 +1,7 @@
 ;;; timu-line.el --- Custom and simple mode line -*- lexical-binding: t; -*-
 
 ;; Author: Aimé Bertrand <aime.bertrand@macowners.club>
-;; Version: 1.5
+;; Version: 1.6
 ;; Package-Requires: ((emacs "29.1"))
 ;; Created: 2023-07-31
 ;; Keywords: modeline frames ui
@@ -63,6 +63,7 @@
 ;;      - Display buffer/file name
 ;;      - Display keybindings hint for the wdired buffer
 ;;      - Display keybindings hint for the org capture buffer
+;;      - Display keybindings hint for the org log note buffer
 ;;      - Display keybindings hint for the git commit message buffer
 ;;      - Display keybindings hint for the forge post buffer
 ;;      - Display the vc branch
@@ -104,6 +105,7 @@
 ;;      - `timu-line-show-python-virtual-env' - default value is t
 ;;      - `timu-line-show-wdired-keys' - default value is nil
 ;;      - `timu-line-show-org-capture-keys' - default value is t
+;;      - `timu-line-show-org-log-note-keys' - default value is nil
 ;;      - `timu-line-show-git-commit-keys' - default value is t
 ;;      - `timu-line-show-forge-post-keys' - default value is t
 ;;      - `timu-line-show-mu4e-context' - default value is t
@@ -226,6 +228,18 @@ This is set to \"t\" by default."
 (defcustom timu-line-org-capture-keys-string
   "| Finish: M-s | Refile: M-r | Cancel: M-w |"
   "The string to show as org capture keybindings."
+  :type 'string
+  :group 'timu-line)
+
+(defcustom timu-line-show-org-log-note-keys nil
+  "Control whether to show the org log note keybindings in the mode line.
+This is set to \"nil\" by default."
+  :type 'boolean
+  :group 'timu-line)
+
+(defcustom timu-line-org-log-note-keys-string
+  "| Finish: M-s | Cancel: M-w |"
+  "The string to show as org log note keybindings."
   :type 'string
   :group 'timu-line)
 
@@ -488,6 +502,18 @@ The value is \"/\" when `dired-directory' is at the root of the files system."
     (if timu-line-show-org-capture-keys
         (if (bound-and-true-p org-capture-mode)
             (concat "  " timu-line-org-capture-keys-string " ")
+          "")
+      "")
+    'face face)))
+
+(defun timu-line-org-log-note-keys ()
+  "Return keybindings instruction for org log note as a propertized string."
+  (timu-line-face-switcher
+   'timu-line-fancy-face 'timu-line-inactive-face
+   (propertize
+    (if timu-line-show-org-log-note-keys
+        (if (bound-and-true-p timu-org-note-mode)
+            (concat "  " timu-line-org-log-note-keys-string " ")
           "")
       "")
     'face face)))
@@ -827,6 +853,7 @@ aligned respectively."
                             (timu-line-vc-branch)
                             (timu-line-python-virtual-env)
                             (timu-line-org-capture-keys)
+                            (timu-line-org-log-note-keys)
                             (timu-line-git-commit-keys)
                             (timu-line-wdired-keys)
                             (timu-line-forge-post-keys)

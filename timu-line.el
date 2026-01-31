@@ -670,28 +670,33 @@ Information:
 
 (defun timu-line-unread-mu4e-count ()
   "Return the count (e.g. \"e:42\") of unread emails as a propertized string.
-This works only with \"mu\" so far.
-
-Also show an indicator (\":u\") when mail index is being updated.
-The display it controlled by `timu-line-show-mu4e-index-update-indicator'."
+This works only with \"mu\" so far."
   (timu-line-face-switcher
    'timu-line-active-face 'timu-line-inactive-face
    (propertize
     (if (executable-find "mu")
-        (let ((mu4e-index-update-indicator
-               (if timu-line-show-mu4e-index-update-indicator
-                   (if timu-line-mu4e-is-updating
-                       ":u"
-                     "")
-                 "")))
-          (concat " e:"
-                  (condition-case nil
-                      ;; TODO - for now catch error when visiting orphaned files
-                      (shell-command-to-string
-                       "printf $(mu find flag:unread 2> /dev/null | wc -l)")
-                    (error "err"))
-                  (format "%s" mu4e-index-update-indicator)))
+        (concat " e:"
+                (condition-case nil
+                    ;; TODO - for now catch error when visiting orphaned files
+                    (shell-command-to-string
+                     "printf $(mu find flag:unread 2> /dev/null | wc -l)")
+                  (error "err")))
       "")
+    'face face)))
+
+(defun timu-line-mu4e-update-string ()
+  "Show an indicator (\":u\") when mail index is being updated.
+The display it controlled by `timu-line-show-mu4e-index-update-indicator'.
+This works only with \"mu\" so far."
+  (timu-line-face-switcher
+   'timu-line-status-face 'timu-line-inactive-face
+   (propertize
+    (if (executable-find "mu")
+        (if timu-line-show-mu4e-index-update-indicator
+            (if timu-line-mu4e-is-updating
+                ":u"
+              "")
+          ""))
     'face face)))
 
 (defun timu-line-tab-number ()
@@ -870,6 +875,7 @@ aligned respectively."
                             (timu-line-major-mode)
                             timu-line-spacer-bottom
                             (timu-line-unread-mu4e-count)
+                            (timu-line-mu4e-update-string)
                             (timu-line-tab-number)
                             (timu-line-position)
                             (timu-line-popper-indicator)

@@ -696,7 +696,8 @@ This works only with \"mu\" so far."
             (if timu-line-mu4e-is-updating
                 ":u"
               "")
-          ""))
+          "")
+      "")
     'face face)))
 
 (defun timu-line-tab-number ()
